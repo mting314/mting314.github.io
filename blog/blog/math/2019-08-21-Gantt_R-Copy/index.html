@@ -46,8 +46,8 @@ Powered by Hydejack v9.0.3 <https://hydejack.com/>
 <meta property="og:locale" content="en" />
 <meta name="description" content="Title test2 list: list1 list 2 list 3 The blog part is a WIP, this is a test" />
 <meta property="og:description" content="Title test2 list: list1 list 2 list 3 The blog part is a WIP, this is a test" />
-<link rel="canonical" href="http://localhost:4000/blog/blog/math/2019-08-21-Gantt_R-Copy/" />
-<meta property="og:url" content="http://localhost:4000/blog/blog/math/2019-08-21-Gantt_R-Copy/" />
+<link rel="canonical" href="http://gmarini.com/blog/blog/math/2019-08-21-Gantt_R-Copy/" />
+<meta property="og:url" content="http://gmarini.com/blog/blog/math/2019-08-21-Gantt_R-Copy/" />
 <meta property="og:site_name" content="Michael Ting" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-08-21T00:00:00-07:00" />
@@ -57,7 +57,7 @@ Powered by Hydejack v9.0.3 <https://hydejack.com/>
 <meta name="twitter:creator" content="@Michael Ting" />
 <meta name="google-site-verification" content="kRoh_csFULhK6lxBJwZOxiWYQpvttOkFj0a3lWwQADc" />
 <script type="application/ld+json">
-{"headline":"Gantt charts in R","dateModified":"2021-05-08T22:02:49-07:00","datePublished":"2019-08-21T00:00:00-07:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/blog/math/2019-08-21-Gantt_R-Copy/"},"url":"http://localhost:4000/blog/blog/math/2019-08-21-Gantt_R-Copy/","author":{"@type":"Person","name":"Michael Ting"},"description":"Title test2 list: list1 list 2 list 3 The blog part is a WIP, this is a test","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://localhost:4000/assets/icons/icon.jpg"},"name":"Michael Ting"},"@context":"https://schema.org"}</script>
+{"headline":"Gantt charts in R","dateModified":"2021-05-08T22:02:49-07:00","datePublished":"2019-08-21T00:00:00-07:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://gmarini.com/blog/blog/math/2019-08-21-Gantt_R-Copy/"},"url":"http://gmarini.com/blog/blog/math/2019-08-21-Gantt_R-Copy/","author":{"@type":"Person","name":"Michael Ting"},"description":"Title test2 list: list1 list 2 list 3 The blog part is a WIP, this is a test","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://gmarini.com/assets/icons/icon.jpg"},"name":"Michael Ting"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -86,9 +86,9 @@ Powered by Hydejack v9.0.3 <https://hydejack.com/>
 <meta name="generator" content="Hydejack v9.0.3" />
 
 
-<link rel="alternate" href="http://localhost:4000/blog/blog/math/2019-08-20-Gantt_R/" hreflang="en">
+<link rel="alternate" href="http://gmarini.com/blog/blog/math/2019-08-20-Gantt_R/" hreflang="en">
 
-<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Michael Ting" />
+<link type="application/atom+xml" rel="alternate" href="http://gmarini.com/feed.xml" title="Michael Ting" />
 
 
 <link rel="shortcut icon"    href="/assets/icons/favicon.ico">
@@ -713,7 +713,7 @@ in <a href="/blog/blog/" class="flip-title">Blog</a> / <a href="/blog/math/" cla
     
 
 
-  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Random Posts</h2>  <ul class="related-posts">          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-03-29-hw0/" class="flip-title"><span>Homework 0: Penguins</span></a>  <time class="faded fine" datetime="2021-03-29T00:00:00-07:00">29 Mar 2021</time></li>          <li class="h4">  <a href="/blog/blog/math/pic16b/2020-08-20-The-Damped-Driven-Pendulum/" class="flip-title"><span>The Damped Driven Pendulum</span></a>  <time class="faded fine" datetime="2020-08-20T00:00:00-07:00">20 Aug 2020</time></li>          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-04-29-hw2/" class="flip-title"><span>Homework 2: Spectral Clustering</span></a>  <time class="faded fine" datetime="2021-04-29T00:00:00-07:00">29 Apr 2021</time></li>      </ul></aside>
+  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Random Posts</h2>  <ul class="related-posts">          <li class="h4">  <a href="/blog/blog/math/2019-08-20-Gantt_R/" class="flip-title"><span>Gantt charts in R</span></a>  <time class="faded fine" datetime="2019-08-20T00:00:00-07:00">20 Aug 2019</time></li>          <li class="h4">  <a href="/blog/blog/math/pic16b/2020-08-20-The-Damped-Driven-Pendulum/" class="flip-title"><span>The Damped Driven Pendulum</span></a>  <time class="faded fine" datetime="2020-08-20T00:00:00-07:00">20 Aug 2020</time></li>          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-03-29-hw0/" class="flip-title"><span>Homework 0: Penguins</span></a>  <time class="faded fine" datetime="2021-03-29T00:00:00-07:00">29 Mar 2021</time></li>      </ul></aside>
 
   
 
@@ -994,6 +994,17 @@ function appendLeadingZeroes(n){
     return doc.body.textContent || "";
   };
 
+  function getRandomSubarray(arr, size) {
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
+    while (i--) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(0, size);
+}
+
 var blogTyperStarted = false;
 var startBlogTyper = function(typingWindow){
   blogTyperStarted = true;
@@ -1025,8 +1036,10 @@ var startBlogTyper = function(typingWindow){
   }, 10000);
   console.log("Starting blog typer!");
 
+
+
   var totalLoops = 20;
-  var wordList = ["<em>PhD Student</em> 📚", "Programmer 💻", "Photographer 📷", "Pizza Lover 🍕", "Gamer 👾", "Swimmer 🏊", "Traveller 🌏"];
+  // var wordList = ["<em>PhD Student</em> 📚", "Programmer 💻", "Photographer 📷", "Pizza Lover 🍕", "Gamer 👾", "Swimmer 🏊", "Traveller 🌏"];
   const jsonData = {
         "10": "Oh, well.",
         "20": "Why not?",
@@ -1456,7 +1469,7 @@ var startBlogTyper = function(typingWindow){
         "14013": "I like your style.",
         "14014": "Send in a bug report"
       }
-  // const wordList = Object.values(jsonData)
+  var wordList = getRandomSubarray(Object.values(jsonData), 10);
   var pause = [1000, 4500];
   var terminalStarter = "> <span style='color: #5cd400;'> mting314@blog:</span><span style='color: #1c39c7;'>~</span>$ ";
   var current_datetime = new Date();
