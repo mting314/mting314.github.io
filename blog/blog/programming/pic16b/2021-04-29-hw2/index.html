@@ -59,7 +59,7 @@ Powered by Hydejack v9.0.3 <https://hydejack.com/>
 <meta name="twitter:creator" content="@Michael Ting" />
 <meta name="google-site-verification" content="kRoh_csFULhK6lxBJwZOxiWYQpvttOkFj0a3lWwQADc" />
 <script type="application/ld+json">
-{"datePublished":"2021-04-29T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://gmarini.com/blog/blog/programming/pic16b/2021-04-29-hw2/"},"@type":"BlogPosting","description":"Learning about a cool clustering algorithm sitting at the intersection of data science, linear algebra, and graph theory","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://gmarini.com/assets/icons/icon.jpg"},"name":"Michael Ting"},"url":"http://gmarini.com/blog/blog/programming/pic16b/2021-04-29-hw2/","author":{"@type":"Person","name":"Michael Ting"},"image":"http://gmarini.com/assets/img/blog/hw2_files/main.PNG","headline":"Homework 2: Spectral Clustering","dateModified":"2021-05-10T00:19:46-07:00","@context":"https://schema.org"}</script>
+{"headline":"Homework 2: Spectral Clustering","dateModified":"2021-05-11T03:28:32-07:00","datePublished":"2021-04-29T00:00:00-07:00","@type":"BlogPosting","image":"http://gmarini.com/assets/img/blog/hw2_files/main.PNG","mainEntityOfPage":{"@type":"WebPage","@id":"http://gmarini.com/blog/blog/programming/pic16b/2021-04-29-hw2/"},"url":"http://gmarini.com/blog/blog/programming/pic16b/2021-04-29-hw2/","author":{"@type":"Person","name":"Michael Ting"},"description":"Learning about a cool clustering algorithm sitting at the intersection of data science, linear algebra, and graph theory","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://gmarini.com/assets/icons/icon.jpg"},"name":"Michael Ting"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -88,7 +88,7 @@ Powered by Hydejack v9.0.3 <https://hydejack.com/>
 <meta name="generator" content="Hydejack v9.0.3" />
 
 
-<link rel="alternate" href="http://gmarini.com/blog/blog/math/2019-08-20-Gantt_R/" hreflang="en">
+<link rel="alternate" href="http://gmarini.com/blog/blog/programming/2020-05-27-discord-bot/" hreflang="en">
 
 <link type="application/atom+xml" rel="alternate" href="http://gmarini.com/feed.xml" title="Michael Ting" />
 
@@ -381,7 +381,27 @@ in <a href="/blog/blog/" class="flip-title">Blog</a> / <a href="/blog/programmin
   </header>
 
   
-    <h2 id="introduction">Introduction</h2>
+    <ol id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#what-even-is-clustering" id="markdown-toc-what-even-is-clustering">What even is clustering?</a>    <ol>
+      <li><a href="#harder-clustering" id="markdown-toc-harder-clustering">Harder Clustering</a></li>
+    </ol>
+  </li>
+  <li><a href="#what-are-we-even-looking-for-the-optimization-problem" id="markdown-toc-what-are-we-even-looking-for-the-optimization-problem">What are we even looking for? The Optimization Problem</a></li>
+  <li><a href="#measuring-how-were-doing-creating-the-math-problem" id="markdown-toc-measuring-how-were-doing-creating-the-math-problem">Measuring how we’re doing: creating the math problem</a>    <ol>
+      <li><a href="#the-cut-term" id="markdown-toc-the-cut-term">The Cut Term</a></li>
+      <li><a href="#the-volume-term" id="markdown-toc-the-volume-term">The Volume Term</a></li>
+    </ol>
+  </li>
+  <li><a href="#a-better-way-to-try-different-clusterings" id="markdown-toc-a-better-way-to-try-different-clusterings">A better way to try different clusterings</a></li>
+  <li><a href="#asking-the-computer-to-optimize-our-function" id="markdown-toc-asking-the-computer-to-optimize-our-function">Asking the computer to optimize our function</a></li>
+  <li><a href="#checking-how-we-did" id="markdown-toc-checking-how-we-did">Checking how we did</a></li>
+  <li><a href="#improving-with-some-mathemagic" id="markdown-toc-improving-with-some-mathemagic">Improving with some Mathemagic</a></li>
+  <li><a href="#wrapping-up" id="markdown-toc-wrapping-up">Wrapping up</a></li>
+  <li><a href="#some-just-for-fun-experiments" id="markdown-toc-some-just-for-fun-experiments">Some just-for-fun experiments</a></li>
+</ol>
+
+<h2 id="introduction">Introduction</h2>
 
 <p>This time, we’re talking about spectral clustering! I’ll be honest, this is probably going to be a highlight for me in this course; as you’ll soon see, this algorithm is not only really applicable in data/network science, but the amount of crossover with the math behind the scenes is great. This blog will focus more on the programming side of things, i.e. actually coding up the algorithm, and not focus too much on the math though. That being said, there are many great resources online that explain the algorithm entirely from the math perspective if you’re interested.</p>
 
@@ -477,7 +497,7 @@ in <a href="/blog/blog/" class="flip-title">Blog</a> / <a href="/blog/programmin
 
 <p>As we’ll see, spectral clustering is able to correctly cluster the two crescents. In the following problems, you will derive and implement spectral clustering.</p>
 
-<h2 id="part-a">Part A</h2>
+<h2 id="what-are-we-even-looking-for-the-optimization-problem">What are we even looking for? The Optimization Problem</h2>
 
 <p>Our first order of business is actually going to be to translate this problem about data points on a plane into a <em>network</em> (points with connections). However, even a second of thought might give rise to the concern, “wait aren’t we losing information like that, now that we’ve just threw away the actual distance numbers for just yes’s and no’s?”.</p>
 
@@ -529,7 +549,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
        [0, 0, 0, ..., 1, 1, 0]])
 </code></pre></div></div>
 
-<h2 id="part-b">Part B</h2>
+<h2 id="measuring-how-were-doing-creating-the-math-problem">Measuring how we’re doing: creating the math problem</h2>
 
 <p>Now that we have the similarity matrix, we can start doing math on it. In particular, we want to formulate our clustering algorithm into an the language of an <strong>optimization question</strong>, because that’s all the computer’s tasks is really in machine learning.</p>
 
@@ -568,7 +588,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
   <p>I revamped both this part and a little of the next to include this “by-hand” example I’ve been referencing. I agree that especially as someone new to this, seeing a small example of all this play out is really nice, and I had all the pictures from when we went over this algorithm in Math 118 (Data Theory), so I figured it would be nice to include here as well.</p>
 </div>
 
-<h3 id="b1-the-cut-term">B.1 The Cut Term</h3>
+<h3 id="the-cut-term">The Cut Term</h3>
 
 <p>We can define a “cut term”, which just answers part of the main question: given a guess at a clustering like above, how many “cuts” do we have to make in order to separate out the red Cluster 1 nodes from the blue Cluster 0 nodes? Like we mentioned earlier, this gives us a good idea of how entangled our clusters are, or in other words, how “bad” they are at well, clustering.</p>
 
@@ -631,7 +651,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(13, 1116)
 </code></pre></div></div>
 
-<h3 id="b2-the-volume-term">B.2 The Volume Term</h3>
+<h3 id="the-volume-term">The Volume Term</h3>
 
 <p>With the cut term out of the way, it’s time to create the <strong>volume term</strong>. If we recall our main objective function again,</p>
 
@@ -673,7 +693,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0.995836336735081
 </code></pre></div></div>
 
-<h2 id="part-c">Part C</h2>
+<h2 id="a-better-way-to-try-different-clusterings">A better way to try different clusterings</h2>
 
 <p>Great, now that we have an objective function, we know what we need to do: the input values are the <em><code class="language-text highlighter-rouge">y</code> vectors</em>, or our guess at the clustering, and there are only finitely many choices, so why not just loop through every one to find the optimal clustering?</p>
 
@@ -729,7 +749,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>True
 </code></pre></div></div>
 
-<h2 id="part-d">Part D</h2>
+<h2 id="asking-the-computer-to-optimize-our-function">Asking the computer to optimize our function</h2>
 
 <p>At this point, basically the whole optimization problem is finally set up. Our obejctive function is now</p>
 
@@ -760,7 +780,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
 <span class="n">z_min</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">orth_obj</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">)).</span><span class="n">x</span>
 </code></pre></div></div>
 
-<h2 id="part-e">Part E</h2>
+<h2 id="checking-how-we-did">Checking how we did</h2>
 
 <p>Now with this optimal value <code class="language-text highlighter-rouge">z_min</code> we’re basically done! Remember that this tells us all of our labels: <code class="language-text highlighter-rouge">z_min[i]&gt;0</code> means that we’re in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">C_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, and <code class="language-text highlighter-rouge">z_min[i]&lt;0</code> means that we’re in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">C_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>. To visualize this, we can create a new set of learned labels <code class="language-text highlighter-rouge">y_learned</code> that implements this logic, and use that to color each of our points.</p>
 
@@ -776,7 +796,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
 
 <p>We did pretty well! (Although it looks like that one point in the left side of the yellow miin seems like it went to the dark side…)</p>
 
-<h2 id="part-f">Part F</h2>
+<h2 id="improving-with-some-mathemagic">Improving with some Mathemagic</h2>
 
 <p>Now if you’ve been playing along at home, you might have noticed that running that <code class="language-text highlighter-rouge">minimize</code> function actually took a while, like a good 5 seconds. That time only gets exponentially worse (literally I think) as you increase the amount of data points you have. And nowadays, 200 points is a tiny tiny number, so we’re probably  going to want something even faster.</p>
 
@@ -850,7 +870,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
 
 <p>Awesome! And isn’t this so much simpler than all that setup for the <code class="language-text highlighter-rouge">orth_obj</code> function?</p>
 
-<h2 id="part-g">Part G</h2>
+<h2 id="wrapping-up">Wrapping up</h2>
 
 <p>Finally, it’s time to wrap this all in a function so that we can play around with our algorithm more easily. The inputs we had at the very beginning were of course the original data <code class="language-text highlighter-rouge">X</code>, and the thresholding parameter <code class="language-text highlighter-rouge">epsilon</code>. And at the end, we’ll want the “learned” labels of two clusters <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">C_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">C_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, formatted in the standard way of course.</p>
 
@@ -886,7 +906,7 @@ Let's say blue nodes represent the coming from Cluster 0, and red represents Clu
 </span>    <span class="k">return</span> <span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">z_eig</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h2 id="part-h">Part H</h2>
+<h2 id="some-just-for-fun-experiments">Some just-for-fun experiments</h2>
 
 <p>Now let’s have some fun with our <em>fun</em>ction. What if we have just a ton more data points?</p>
 
@@ -944,8 +964,6 @@ LinAlgError: Singular matrix
 
 <p>This really says a lot about our society.</p>
 
-<h2 id="part-i">Part I</h2>
-
 <p>And here’s a final example where spectral clustering shows its dominance over k-means: a bull’s eye.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">1000</span>
@@ -968,8 +986,7 @@ LinAlgError: Singular matrix
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.collections.PathCollection at 0x174cecebfa0&gt;
 </code></pre></div></div>
 
-<!-- ![png](/assets/img/blog/hw2_files/output_74_1.png) -->
-<p><img src="/assets/img/blog/hw_files/output_74_1.png" alt="svg" /></p>
+<p><img src="/assets/img/blog/hw2_files/output_74_1.png" alt="svg" /></p>
 
 <p>Can your function successfully separate the two circles? Some experimentation here with the value of <code class="language-text highlighter-rouge">epsilon</code> is likely to be required. Try values of <code class="language-text highlighter-rouge">epsilon</code> between <code class="language-text highlighter-rouge">0</code> and <code class="language-text highlighter-rouge">1.0</code> and describe your findings. For roughly what values of <code class="language-text highlighter-rouge">epsilon</code> are you able to correctly separate the two rings?</p>
 
@@ -1184,7 +1201,7 @@ LinAlgError: Singular matrix
     
 
 
-  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Random Posts</h2>  <ul class="related-posts">          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-03-29-hw0/" class="flip-title"><span>Homework 0: Penguins</span></a>  <time class="faded fine" datetime="2021-03-29T00:00:00-07:00">29 Mar 2021</time></li>          <li class="h4">  <a href="/blog/blog/math/pic16b/2020-08-20-The-Damped-Driven-Pendulum/" class="flip-title"><span>The Damped Driven Pendulum</span></a>  <time class="faded fine" datetime="2020-08-20T00:00:00-07:00">20 Aug 2020</time></li>          <li class="h4">  <a href="/blog/blog/math/2019-08-21-Gantt_R-Copy/" class="flip-title"><span>Gantt charts in R</span></a>  <time class="faded fine" datetime="2019-08-21T00:00:00-07:00">21 Aug 2019</time></li>      </ul></aside>
+  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Random Posts</h2>  <ul class="related-posts">          <li class="h4">  <a href="/blog/blog/math/pic16b/2020-08-20-The-Damped-Driven-Pendulum/" class="flip-title"><span>The Damped Driven Pendulum</span></a>  <time class="faded fine" datetime="2020-08-20T00:00:00-07:00">20 Aug 2020</time></li>          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-04-14-hw1/" class="flip-title"><span>Homework 1: Some Fancy Climate Dataset Visualizations</span></a>  <time class="faded fine" datetime="2021-04-14T00:00:00-07:00">14 Apr 2021</time></li>          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-03-29-hw0/" class="flip-title"><span>Homework 0: Penguins</span></a>  <time class="faded fine" datetime="2021-03-29T00:00:00-07:00">29 Mar 2021</time></li>      </ul></aside>
 
   
 
