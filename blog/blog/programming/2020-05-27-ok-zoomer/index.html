@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="en"><!--
+ __  __                __                                     __
+/\ \/\ \              /\ \             __                    /\ \
+\ \ \_\ \   __  __    \_\ \      __   /\_\      __       ___ \ \ \/'\
+ \ \  _  \ /\ \/\ \   /'_` \   /'__`\ \/\ \   /'__`\    /'___\\ \ , <
+  \ \ \ \ \\ \ \_\ \ /\ \L\ \ /\  __/  \ \ \ /\ \L\.\_ /\ \__/ \ \ \\`\
+   \ \_\ \_\\/`____ \\ \___,_\\ \____\ _\ \ \\ \__/.\_\\ \____\ \ \_\ \_\
+    \/_/\/_/ `/___/> \\/__,_ / \/____//\ \_\ \\/__/\/_/ \/____/  \/_/\/_/
+                /\___/                \ \____/
+                \/__/                  \/___/
+
+Powered by Hydejack v9.0.3 <https://hydejack.com/>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Ok, Zoomer | Michael Ting</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Ok, Zoomer" />
+<meta name="author" content="Michael Ting" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Documenting my thought process and progress on making a Discord bot that notifies users when UCLA classes change between closed and open" />
+<meta property="og:description" content="Documenting my thought process and progress on making a Discord bot that notifies users when UCLA classes change between closed and open" />
+<link rel="canonical" href="http://gmarini.com/blog/blog/programming/2020-05-27-ok-zoomer/" />
+<meta property="og:url" content="http://gmarini.com/blog/blog/programming/2020-05-27-ok-zoomer/" />
+<meta property="og:site_name" content="Michael Ting" />
+<meta property="og:image" content="http://gmarini.com/assets/img/blog/zoomer_files/clickable_planner.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-05-27T05:56:28-07:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://gmarini.com/assets/img/blog/zoomer_files/clickable_planner.png" />
+<meta property="twitter:title" content="Ok, Zoomer" />
+<meta name="twitter:site" content="@qwtel" />
+<meta name="twitter:creator" content="@Michael Ting" />
+<meta name="google-site-verification" content="kRoh_csFULhK6lxBJwZOxiWYQpvttOkFj0a3lWwQADc" />
+<script type="application/ld+json">
+{"headline":"Ok, Zoomer","dateModified":"2021-05-31T01:12:00-07:00","datePublished":"2020-05-27T05:56:28-07:00","@type":"BlogPosting","image":{"caption":"What I originally imagined the extension could do to the class planner.","focal_point":"","preview_only":false,"url":"http://gmarini.com/assets/img/blog/zoomer_files/clickable_planner.png","@type":"imageObject"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://gmarini.com/blog/blog/programming/2020-05-27-ok-zoomer/"},"url":"http://gmarini.com/blog/blog/programming/2020-05-27-ok-zoomer/","author":{"@type":"Person","name":"Michael Ting"},"description":"Documenting my thought process and progress on making a Discord bot that notifies users when UCLA classes change between closed and open","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://gmarini.com/assets/icons/icon.jpg"},"name":"Michael Ting"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+    <meta name="keywords" content="PhD,coding,programming,android,IoT,Ubiquitous,computing,computer,science">
+  
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Michael Ting">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="Michael Ting">
+
+
+  <meta name="theme-color" content="rgb(8,46,57)">
+
+
+<meta name="generator" content="Hydejack v9.0.3" />
+
+
+<link rel="alternate" href="http://gmarini.com/blog/blog/programming/2020-05-27-ok-zoomer/" hreflang="en">
+
+<link type="application/atom+xml" rel="alternate" href="http://gmarini.com/feed.xml" title="Michael Ting" />
+
+
+<link rel="shortcut icon"    href="/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/assets/site.webmanifest">
+
+
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+  <link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+
+<link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+
+<link rel="dns-prefetch" href="/assets/js/search-worker-9.0.3.js" as="worker" id="_hrefSearch">
+
+  
+  <link rel="dns-prefetch" href="/assets/bower_components/katex/dist/katex.min.css" id="_katexPreload">
+
+
+
+
+<link rel="dns-prefetch" href="https://mting314-com.disqus.com" id="_hrefDisqus">
+
+
+<script>!function(e,t){"use strict";function n(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}e.loadJS=function(e,o){var r=t.createElement("script");r.src=e,o&&n(r,"load",o,{once:!0});var a=t.scripts[0];return a.parentNode.insertBefore(r,a),r},e._loaded=!1,e.loadJSDeferred=function(o,r){function a(){e._loaded=!0,r&&n(c,"load",r,{once:!0});var o=t.scripts[0];o.parentNode.insertBefore(c,o)}var c=t.createElement("script");return c.src=o,e._loaded?a():n(e,"load",a,{once:!0}),c},e.setRel=e.setRelStylesheet=function(e){function o(){this.rel="stylesheet"}n(t.getElementById(e),"load",o,{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/';
+  w._publicPath = '/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+}(window);
+</script>
+
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/assets/css/hydejack-9.0.3.css" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: rgb(79,177,186);--accent-color-transparent:  rgba(79,177,186,0.5);--accent-color-transparent-darkened:  rgba(32,76,80,0.8);--accent-color-faded: rgba(79,177,186,0.5);--accent-color-darkened: #409ba3;--theme-color: rgb(8,46,57);--dark-mode-body-bg: #282f31;--dark-mode-border-color: #343d3f}
+
+</style>
+
+
+<!--<![endif]-->
+
+
+<!--
+Code used for embedding Gumroad on the Hydejack Site. 
+Left here for reference, feel free to delete.
+-->
+
+
+
+<!-- It's better to but it here as it is loaded BEFORE my-scripts.html -->
+<script src="/assets/mting314/js/jquery-3.5.1.min.js"></script>
+
+
+
+<link rel="dns-prefetch" href="https://assets.gumroad.com">
+<script type="module">
+  const ppiData = window._ppiData = fetch('https://hydejack-ppi.qwtel.workers.dev', { mode: 'cors'}).then(res => res.json()).catch(() => ({}));
+  const promisify = f => x => new Promise(r => f(x).addEventListener('load', r));
+  const loadJS = promisify(window.loadJS);
+  {
+    let p;
+    document.querySelector('hy-push-state').addEventListener('load', () => {
+      const io = new IntersectionObserver(async (entries) => {
+        if (entries.some(x => x.isIntersecting)) {
+          p = p || loadJS('https://gumroad.com/js/gumroad-embed.js');
+          const [{ code }] = await Promise.all([ppiData, p]);
+          document.querySelectorAll('.gumroad-product-embed').forEach(el => { 
+            if (!el.dataset.gumroadParams) {
+              el.dataset.gumroadParams = 'offer_code=' + (code || 'qr0tw8m');
+            }
+          });
+          if (!window.GumroadEmbed) {
+            await new Promise(function check1(res) {
+              if ('createGumroadEmbed' in window) res(window.createGumroadEmbed());
+              else setTimeout(() => check1(res), 200);
+            });
+          }
+          await new Promise(function check2(res) {
+            if ('GumroadEmbed' in window) res(GumroadEmbed.reload());
+            else setTimeout(() => check2(res), 200);
+          });
+        }
+      }, { rootMargin: '1440px' });
+      document.querySelectorAll('.gumroad-product-embed').forEach(el => io.observe(el));
+    });
+  }
+  {
+    let p;
+    document.querySelector('hy-push-state').addEventListener('load', () => {
+      const io = new IntersectionObserver(async (entries) => {
+        if (entries.some(x => x.isIntersecting)) {
+          p = p || loadJS('https://gumroad.com/js/gumroad.js');
+          const [{ code }] = await Promise.all([ppiData, p]);
+          if (code) {
+            document.querySelectorAll('.gumroad-button').forEach(el => { 
+              if (!el.href.endsWith(code)) {
+                el.href = el.href + '/' + (code || 'qr0tw8m');
+              }
+            });
+          }
+          if (!window.GumroadOverlay) {
+            await new Promise(function check(res) {
+              if ('createGumroadOverlay' in window) res(window.createGumroadOverlay());
+              else setTimeout(() => check(res), 200);
+            });
+          }
+        }
+      }, { rootMargin: '300px' });
+      document.querySelectorAll('.gumroad-button').forEach(el => io.observe(el));
+    });
+  }
+</script>
+
+</head>
+
+<body class="no-break-layout no-large-headings">
+  
+<script>
+  window._sunrise = 9;
+  window._sunset =  18;
+  window.match_os =  false;
+  !function (window, document) {
+  var LM = 'light-mode';
+  var DM = 'dark-mode';
+  var h = new Date().getHours();
+  document.body.classList.add(DM); /*Start in dark mode and eventually switch */
+  console.log("match_os " + match_os + " time " +h);
+  /* if match_os is false, the time has the preference on deciding  which mode */
+  if (window.match_os  && 'matchMedia' in window && window.matchMedia('(prefers-color-scheme)')) return;
+  var m = h <= window._sunrise || h >= window._sunset  ? DM : LM; 
+  var n = m === DM ? LM : DM;
+  document.body.classList.add(m);
+  document.body.classList.remove(n);
+}(window, document);
+
+</script>
+
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  
+
+
+
+
+
+<article id="post-blog-blog-programming-ok-zoomer" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        Ok, Zoomer
+
+      
+    </h1>
+
+    <div class="post-date">
+      
+        
+        <time datetime="2020-05-27T05:56:28-07:00">27 May 2020</time>
+      
+      
+      
+      
+      
+      
+
+
+
+
+
+
+
+
+
+in <a href="/blog/blog/" class="flip-title">Blog</a> / <a href="/blog/programming/" class="flip-title">Programming</a>
+
+      
+
+
+
+
+
+
+
+
+
+on <span>Ucla class data</span>
+
+    </div>
+
+    
+    
+      
+        
+        
+          <div class="lead aspect-ratio sixteen-nine flip-project-img">
+            
+
+
+
+
+
+<img
+  
+    src="/assets/img/blog/zoomer_files/clickable_planner.png"
+    
+    
+  
+  alt="Ok, Zoomer"
+  
+  
+  width="864"
+  height="486"
+  loading="lazy"
+/>
+
+          
+        </div>
+      
+      
+    
+
+    
+
+
+
+  
+    <p class="note-sm"   >
+      Documenting my thought process and progress on making a Discord bot that notifies users when UCLA classes change between closed and open
+
+    </p>
+  
+
+
+  </header>
+
+  
+    <ol id="markdown-toc">
+  <li><a href="#background" id="markdown-toc-background">Background</a></li>
+  <li><a href="#basics-of-the-extension" id="markdown-toc-basics-of-the-extension">Basics of the Extension</a>    <ol>
+      <li><a href="#preliminary-definitions" id="markdown-toc-preliminary-definitions">Preliminary Definitions</a></li>
+      <li><a href="#injecting-to-the-class-planner" id="markdown-toc-injecting-to-the-class-planner">Injecting to the Class Planner</a></li>
+    </ol>
+  </li>
+  <li><a href="#uclas-class-database" id="markdown-toc-uclas-class-database">UCLA’s Class Database</a></li>
+  <li><a href="#the-biggest-roadblock-the-storage-limit" id="markdown-toc-the-biggest-roadblock-the-storage-limit">The Biggest Roadblock: The Storage Limit</a></li>
+  <li><a href="#the-popup" id="markdown-toc-the-popup">The Popup</a></li>
+  <li><a href="#importing-exporting-and-the-personal-entries-switch" id="markdown-toc-importing-exporting-and-the-personal-entries-switch">Importing, Exporting, and The Personal Entries Switch</a></li>
+  <li><a href="#some-remaining-really-annoying-issues" id="markdown-toc-some-remaining-really-annoying-issues">Some remaining really annoying issues</a></li>
+  <li><a href="#concluding-thoughts" id="markdown-toc-concluding-thoughts">Concluding Thoughts</a></li>
+</ol>
+
+<h2 id="background">Background</h2>
+<p>Like many other colleges around the US, UCLA has indeed turned into UZLA (University of Zoom, Los Angeles). As much as I miss being at school physically, I have actually been having some of my own fun in my classes over Zoom. I normally like to joke around during my classes, and I think it does liven up the classes quite a bit. I’ve also really enjoyed going to professor’s office hours much more often, as it feels like I’m actually more open to socialization when there’s a bit of a “wall of separation” from the person of authority thanks to the screen.</p>
+
+<p>Either way, here comes the two problems though:</p>
+
+<p>First, because I like to participate in many online classes (whether I’m actually enrolled in them or not), I end up with a lot of Zoom links floating around. I know I should have made just a bookmark containing all of them, but I’m lazy so I always ended up having to dig through my emails with 999+ notifications to find the one specific email where the link was stored.</p>
+
+<p>Then when I tried making a bookmark folder, I encountered another unfortunate problem: there’s no easy way to store the password in an accessible place when you store the whole link as a bookmark. I tried making the name of the bookmark contain the password as a way of easy access but another problem came from the fact that you can’t copy-paste from the bookmark title. Combine this with the fact that the pop-out from the bookmark disappears when you click on the bookmark, and it almost negates the time you saved over just going to email.</p>
+
+<p>Second, I’m not gonna lie, I get pretty lazy and distracted sometimes with these online classes. For me at least, it’s not hard to see the clock at 10:55 AM, and think “yeah I have some time” and start a new Youtube video 10 minute video, telling myself</p>
+
+<figure style="width: 600px;">
+<img alt="Meme from The Incredibles movie saying 'Yeah, I got time'" src="/assets/img/blog/zoomer_files/i_got_time.jpeg" class="lead" />
+<figcaption>Me when I got time:
+</figcaption>
+</figure>
+
+<p>But you already see where this going. Heck, now that I think about it, sometimes it even happened when I was doing homework and I lose track of the time while working on a problem.</p>
+
+<p>Now one might think “yeah, aren’t there calendar apps for that stuff?”, but when there are like 10 things per week to keep track of, I don’t want to have to keep coming back to the calendar to change everything. But the bigger issue for me is that even if I see a calendar notification, that’s not enough to usually motivate me to slog through my email again just to fish out the right Zoom link. As with many things in life I’ve discovered, a lot of trying to get stuff done is just about lowering all the barriers to starting productive work to trick your brain into having no excuses.</p>
+
+<p>So yeah, even with the classes set up at the right time on the calendar, I found myself often just mentally blocking out the notification that came up in the bottom right of my screen just because I knew it would entail me having to actually stop my train of thought while doing homework or clicking off my video, and putting in actual effort just to get to class.</p>
+
+<p>Now I should take this time to note that of course, these problems are small fry, almost first world-y to be honest, but I’ll just say this: these are the problems I encountered, and I know for sure that there are at least some others out there that could. So I figured, why don’t I stay on brand and find at least some way to contribute using what little I know about Javascript programming: making a Chrome extension!</p>
+
+<h2 id="basics-of-the-extension">Basics of the Extension</h2>
+<p>The idea of a Chrome extension related specifically to UCLA came to me when I heard about an amazing one called <a href="https://chrome.google.com/webstore/detail/easy-bruinwalk-ratings/iohhcbccamefhmjnppendeffiapogjfg?hl=en">Easy Bruinwalk Ratings</a>. This connected UCLA’s specific version of <a href="https://www.ratemyprofessors.com/">RateMyProfessor</a>, called <a href="http://bruinwalk.com/">Bruinwalk</a> (named after the major thoroughfare that connects many important parts of the campus), to UCLA’ s official student portal.</p>
+
+<figure style="width: 600px;">
+<img alt="Map of Bruin Walk, Los Angeles, CA 90095" src="/assets/img/blog/zoomer_files/map.png" class="lead" />
+<figcaption>Bruinwalk’s namesake’s location on UCLA’s campus
+</figcaption>
+</figure>
+
+<p>Bruinwalk is already really helpful for many students who (rightfully) are very careful about choosing with which professors they want to take classes, as they know it greatly affects what kind of experience they will have in the following quarter. All Easy Bruinwalk Ratings does it reads information about a certain professor from Bruinwalk, and displays their average rating next to their name in <a href="http://my.ucla.edu/">MyUCLA</a>, the official UCLA student portal.</p>
+
+<p>Isn’t that kind of brilliant? At its heart, it’s just doing what you would have done: opening a new tab, searching the professor on Bruinwalk, coming back with the rating. But you know what it is? The fact that it does all that without you having to even think, it just pops up right there for you. That’s what really makes this a useful extension in my eyes.</p>
+
+<p>After I ran into all my Zoom problems, I started thinking, you know, all the info for my Zoom classes is just sitting right here in the MyUCLA. There’s gotta be some way to get</p>
+
+<h3 id="preliminary-definitions">Preliminary Definitions</h3>
+<ul>
+  <li><strong><a href="http://my.ucla.edu/">MyUCLA</a></strong>: UCLA’s official student portal. Where students enroll and the class planner lives. Always seems to be under maintenance during exam periods…</li>
+  <li><strong>Class Planner</strong>: When I say “Class Planner”, I’m referring to the whole webpage, which includes both the table view of each class as well as the Class Planner Grid.</li>
+  <li><strong>Class Planner Grid</strong>: “Daily Plan” view of classes on each day of the week, similar to most calendar views. Here’s an example.
+<img src="/assets/img/blog/zoomer_files/standard_planner.png" alt="Class Planner Grid on MyUCLA with no modifications" /></li>
+  <li><strong>Lecture Number (or Class Number)</strong>: Some large classes are offered at many different times, or by many different professors. In order to differentiate them, these will be given different lecture numbers. For example, I could say that I’m in Lecture 3 of Math 31A, or Math 31A Lec 3. In many official contexts, this is called the class number (because in general, classes need not have lectures, but maybe Lab Numbers, or Seminar Numbers), but I think colloquially most people like to say Lecture Number.</li>
+  <li><strong>Discussion Section</strong>: A somewhat colloquial term that refers to scheduled class time outside of lecture often taught by a TA with a subset of students meant to be allotted for asking questions and discussing material. Goes by different names in other places like “recitation” (which sounds 100x cooler) I believe. Most classes that aren’t already small or very hands-on (labs/seminars) have them. Also just called “sections”.</li>
+  <li><strong>Section Number</strong>: Often, large classes have to be broken multiple lectures, and even then are large enough to be broken into several or even dozens of discussion sections. So in order to refer to which Discussion you are in, people often say “3B” to refer to the 3rd lecture being offered, 2nd (B) discussion section. This is how it’s written in the Class Planner and Grid.</li>
+  <li><strong>Class ID Number</strong>: A 9 digit ID that uniquely<sup id="fnref:uniquely" role="doc-noteref"><a href="#fn:uniquely" class="footnote">1</a></sup> identifies a certain Lecture or section of a certain class. Sections also have their own number, and are just made by incrementing the main class’s ID. For example Japan 5 has the Class ID Number 261015200, while its discussions are labeled <a href="https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=21W&amp;subj_area_cd=JAPAN%20%20&amp;crs_catlg_no=0005%20%20%20%20&amp;class_id=261015201&amp;class_no=%20001%20%20">261015201</a> and <a href="https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=21W&amp;subj_area_cd=JAPAN%20%20&amp;crs_catlg_no=0005%20%20%20%20&amp;class_id=261015202&amp;class_no=%20001%20%20">261015202</a>, in order.</li>
+</ul>
+
+<p>And with those out of the way, I think we can start talking about some of my thoughts on some of the interesting parts of development!</p>
+
+<h3 id="injecting-to-the-class-planner">Injecting to the Class Planner</h3>
+<p>Going into this project, one big idea I always kept reminding myself of was that one big appeal of my Chrome extension over a standard calendar app is that it would interact with UCLA’s Class Planner really nicely. At the <em>very</em> beginning, before I even knew what was possible, I at least knew there were a couple small improvements I would want to make to the Class Planner. I had the <em>terrible</em> idea that users were going to type out their own JSON files so that they could be loaded into the extension. I mean, I think that’s a bit forgivable because I thought that I and only I was going to be using it. But even then, I realized how stupidly annoying it was going to be to add and remove classes.</p>
+
+<p>So I had my heading: given that my program would <em>somehow</em> know a class name, and what Zoom ID it should be associated with, could I turn the little planner boxes into clickable links that bring you immediately to the right Zoom room in just one click?</p>
+
+<p>Something that really highlights how unaware of Javascript/programming for the internet in general was my first attempt to work on recreating some form of UCLA’s class planner. Originally, I also had another <em>horrible</em> system where I was trying to do some really weird regex on the page to find items in the Planner Grid. But of course, it was only a matter of time before my first big lesson: injecting HTML.</p>
+
+<p>The first goal was to turn the Class Planner into this:</p>
+
+<p><img src="/assets/img/blog/zoomer_files/clickable_planner.png" alt="Class Planner with clickable boxes" /></p>
+
+<p>What’s the difference? Well the only thing we can tell from this picture is the thicccer borders. This is to indicate the actual functionality change I really thought would be important: making these class planner “blocks” clickable, with clicking a block taking you to the Zoom link for that corresponding class.</p>
+
+<p>Unfortunately, MyUCLA’s website’s backend handles how that class planner grid is made, so I could not inject links in that process. Therefore,</p>
+
+<blockquote class="lead">
+  <p>Big Limitation #1: For Planner Grid injecting, Ok, Zoomer cannot tell the difference between two classes other than by name + section number.</p>
+</blockquote>
+
+<p>And, eh. I think this is a limitation I can live with. It’s hard to imagine a scenario where someone would have two of the same classes with the same name and section number that have different Zoom links. The only scenario where this might be relevant is retaking a course that happens to have the same section number in a subsequent quarter, but the idea to just clear the whole database between quarter, so I don’t see this being a huge issue.</p>
+
+<p>Notice also that red dashed line around the 11:00 mark that ends in the Wednesday column. This is honestly something I think any kind of grid-based calendar app should have, which is what I have been calling a “timeline” for want of a better word. The solid portion of the timeline indicates which day we’re on (Wednesday in the above case), and the dashed line simply comes from the left until we get the the current weekday.</p>
+
+<p>One slightly annoying complication that I first ran into here: I suddenly remembered the existence of time zones! Ugh, fine. I guess it is quite an important feature, this would be come completely unusable if your clock said something different than what time it would be in LA. Also, especially for UCLA, there are lots of students still living overseas.</p>
+
+<p>This does give me a good chance to talk about how I actually injected the timeline though.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">hourCount</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="dl">"</span><span class="s2">.hourbox</span><span class="dl">"</span><span class="p">).</span><span class="nx">length</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kd">let</span> <span class="nx">timecols</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="dl">"</span><span class="s2">.timebox</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="kd">let</span> <span class="nx">now</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+    <span class="kd">let</span> <span class="nx">usaTime</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nx">toLocaleString</span><span class="p">(</span><span class="dl">'</span><span class="s1">en-US</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">timeZone</span><span class="p">:</span> <span class="dl">"</span><span class="s2">America/Los_Angeles</span><span class="dl">"</span>
+    <span class="p">}))</span>
+    <span class="kd">let</span> <span class="nx">currentDay</span> <span class="o">=</span> <span class="p">(((</span><span class="nx">usaTime</span><span class="p">.</span><span class="nx">getDay</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span><span class="p">)</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span> <span class="o">%</span> <span class="mi">7</span><span class="p">;</span>
+    <span class="c1">// If the current (US) time is within the boundaries of the grid, draw in the line at the appropriate height</span>
+    <span class="c1">// and highlight current class if the line crosses it (on the right day)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="mi">8</span> <span class="o">&lt;=</span> <span class="nx">usaTime</span><span class="p">.</span><span class="nx">getHours</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nx">usaTime</span><span class="p">.</span><span class="nx">getHours</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">8</span> <span class="o">+</span> <span class="nx">hourCount</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="kd">let</span> <span class="nx">minutesFrom8</span> <span class="o">=</span> <span class="p">(</span><span class="nx">usaTime</span><span class="p">.</span><span class="nx">getHours</span><span class="p">()</span> <span class="o">-</span> <span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="nx">usaTime</span><span class="p">.</span><span class="nx">getMinutes</span><span class="p">();</span>
+      <span class="kd">let</span> <span class="nx">hourboxHeight</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">.hourbox:eq(0)</span><span class="dl">"</span><span class="p">).</span><span class="nx">height</span><span class="p">();</span>
+      <span class="kd">let</span> <span class="nx">targetHeight</span> <span class="o">=</span> <span class="nx">hourboxHeight</span> <span class="o">/</span> <span class="mi">60</span> <span class="o">*</span> <span class="nx">minutesFrom8</span><span class="p">;</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">timecols</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="nx">currentDay</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">timecols</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">dayIndex</span><span class="p">,</span> <span class="nx">timecol</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kd">let</span> <span class="nx">containingDiv</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">`&lt;div class="</span><span class="p">${(</span><span class="nx">dayIndex</span> <span class="o">&lt;</span> <span class="nx">currentDay</span><span class="p">)</span> <span class="p">?</span> <span class="dl">"</span><span class="s2">otherday</span><span class="dl">"</span> <span class="p">:</span> <span class="dl">"</span><span class="s2">thisday</span><span class="dl">"</span><span class="p">}</span><span class="s2">" style="top: </span><span class="p">${</span><span class="nx">targetHeight</span><span class="p">}</span><span class="s2">px"&gt;&lt;/div&gt;`</span><span class="p">)</span>
+          <span class="nx">$</span><span class="p">(</span><span class="nx">timecol</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">containingDiv</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">dayIndex</span> <span class="o">==</span> <span class="nx">currentDay</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// stop looping (by returning) when we get to the current weekday</span>
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+          <span class="p">}</span>
+        <span class="p">})</span>
+      <span class="p">}</span>
+      
+      <span class="c1">// loop through all planner boxes in the current day (column)</span>
+      <span class="c1">// and highlight class if it's the right time and day</span>
+      <span class="nx">$</span><span class="p">(</span><span class="nx">timecols</span><span class="p">[</span><span class="nx">currentDay</span><span class="p">]).</span><span class="nx">find</span><span class="p">(</span><span class="dl">"</span><span class="s2">.planneritembox</span><span class="dl">"</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">classDiv</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">classInProgress</span><span class="p">(</span><span class="nx">classDiv</span><span class="p">,</span> <span class="nx">targetHeight</span><span class="p">))</span> <span class="p">{</span>
+          <span class="nx">classDiv</span><span class="p">.</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="dl">"</span><span class="s2">currentClass</span><span class="dl">"</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>I thought this was a pretty clever way to measure where we should put the timeline; the main idea would be to measure how many pixels I needed to be past 8 AM, using the height of a single hourbox as a baseline for conversion, then measure the how many minutes we are past 8 AM in Los Angeles, and then convert that time distance to pixel distance, which would tell us the exact height the timeline should lie at.</p>
+
+<p>I wouldn’t normally talk so much about a relatively self explanatory feature, but I think the way I got it to work was a bit fun. One funny little “bug” I had to be careful of was that the class planner doesn’t always have 5 columns.</p>
+
+<figure style="width: 600px;">
+<img alt="Class Planner extends to show weekends if needed" src="/assets/img/blog/zoomer_files/weekend.png" class="lead" />
+<figcaption>Thank goodness I've never had weekend classes that would make me know this existed
+</figcaption>
+</figure>
+
+<p>Which is kind of annoying. Originally, I had some horrible system of counting the number of columns because I assumed that the number of columns in the planner was constantly 5 (M-F), but this is when I made the next biggest discovery in the course of the project: <a href="https://jquery.com/">JQuery</a>. This allowed me to way more easily loop through, say, each weekday of the class planner. You can see me use it a ton in the code above, and lots in the popup as well.</p>
+
+<h2 id="uclas-class-database">UCLA’s Class Database</h2>
+<p>So of course, my original static JSON way of handing my class information to the extension was not gonna fly. This was especially true after showing off some of what I had worked on with the Class Planner to some friends, and they said that they would even be interested in using this tool. This is the moment when it hit me that I should be trying to design this as if other people were going to be using it, otherwise if they did, it would be really annoying for an average user to add classes, set the alarms, etc.</p>
+
+<p>So the best way I thought to do this would be a more direct approach to adding classes:</p>
+
+<figure style="width: 600px;">
+<img src="/assets/img/blog/zoomer_files/addbuttons.png" class="lead" />
+<figcaption>I'm really glad I found plus button icons online, they really blend in well
+</figcaption>
+</figure>
+
+<p>Essentially, I wanted something like this, where there would be some nice plus buttons where you could just click, and immediately Ok, Zoomer would already know all about your class; you just needed to provide the one piece of information it couldn’t know: the Zoom link your professor gives you.</p>
+
+<p>Now many other solutions to this similar issue that I’ve seen just use the information that is surfaced directly on a UCLA site. However, after my internship with SAS, I not only realized that there must be some underlying database, but also where to look for it and how to query it.</p>
+
+<p>And literally just messing around with the Chrome Developer Tools (basically just right-clicking and hitting “inspect element”, I found where the queries were happening.</p>
+
+<p>In the “sources” tab, you can see a lot of the Javascript, CSS, etc that is loaded on the page. In particular, there’s a certain file of interest called <code class="language-text highlighter-rouge">ClassSearchWidget.js?v=1.3d</code>, and when I opened it, I immediately I hit the jackpot. At its heart, this is the Javascript that allows you to look up classes in on the Class Planner website, and constructs the HTML that displays each class row in the all too familiar format. For example:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">thisCourse</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// this course is not in the plan</span>
+    <span class="nx">newOptions</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">"</span><span class="s2">Add as Class </span><span class="dl">"</span> <span class="o">+</span> <span class="p">(</span><span class="nx">planCount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> in your current plan</span><span class="dl">"</span><span class="p">);</span>
+    <span class="nx">onlyOptionText</span> <span class="o">=</span> <span class="dl">"</span><span class="s2"> &lt;span class='text-warning'&gt;Add as Class </span><span class="dl">"</span> <span class="o">+</span> <span class="p">(</span><span class="nx">planCount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;/span&gt; in your current plan?&lt;input type='radio' name='mainCID' class='onlyoption mainCID_</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">my_id</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">' value='0' checked='checked' id='planaction1' style='display: none;' /&gt;&lt;br /&gt;&lt;br /&gt;</span><span class="dl">"</span><span class="p">;</span>
+    <span class="nx">radioID</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">myOptions</span> <span class="o">+=</span> <span class="dl">"</span><span class="s2">&lt;div class='flyout_warnings control'&gt;&lt;label for='planaction</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">radioID</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">'&gt;&lt;input type='radio' name='mainCID' class='flyout_warnings_checkbox cidoption mainCID_</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">my_id</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">' value='0' id='planaction</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">radioID</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">' /&gt;Add as Class </span><span class="dl">"</span> <span class="o">+</span> <span class="p">(</span><span class="nx">planCount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> in your current plan&lt;/label&gt;&lt;/div&gt;</span><span class="dl">"</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">optionTip</span> <span class="o">+=</span> <span class="dl">"</span><span class="s2">&lt;li&gt;This class is already in your plan&lt;/li&gt;</span><span class="dl">"</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>This section looks like it’s generating the part of the HTML for when you want to add a class to your plan:</p>
+
+<figure style="width: 600px;">
+<img src="/assets/img/blog/zoomer_files/add_class_example.png" class="lead" />
+<figcaption>On a side note, isn't it really neat seeing all the code tick for a website you spend so much time on?
+</figcaption>
+</figure>
+
+<p>Either way, I’m currently more interested in how this script is finding the classes when you look them up in the search widget. I eventually found this AJAX request:</p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">POST</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/ClassPlanner/ClassSearch.asmx/getTierData</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="nx">paramData</span><span class="p">,</span>
+    <span class="na">contentType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json; charset=utf-8</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">dataType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">json</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">res</span> <span class="o">&amp;&amp;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">theResult</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">;</span>
+            <span class="nx">DeleteExtensionData</span><span class="p">(</span><span class="nx">theResult</span><span class="p">);</span>
+            <span class="c1">//log(JSON.stringify(theResult.svcReq));</span>
+            <span class="c1">//log(JSON.stringify(theResult.svcRes));</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">errorMessage</span><span class="p">)</span> <span class="p">{</span> <span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">errorMessage</span><span class="p">);</span> <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">svcRes</span> <span class="o">&amp;&amp;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">svcRes</span><span class="p">.</span><span class="nx">ResultTiers</span> <span class="o">&amp;&amp;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">svcRes</span><span class="p">.</span><span class="nx">ResultTiers</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">//There are results!  yaay</span>
+                <span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Class rows found: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">svcRes</span><span class="p">.</span><span class="nx">ResultTiers</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+                <span class="c1">//...</span>
+</code></pre></div></div>
+<p>Side note, I also love the little comments sprinkled throughout the code. Something about the fact that this is code for a big institution sometimes makes me forget that there’s an actual human(s) out there writing this code, and they enjoy making this stuff work as much as I do.</p>
+
+<p>Either way, nice! After messing around with breakpoints a lot, I realized something awesome: I figured out how to query a giant UCLA database of classes! I knew the endpoint was at</p>
+<div class="language-http highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">https://be.my.ucla.edu/ClassPlanner/ClassSearch.asmx/getTierData
+</span></code></pre></div></div>
+<p>Now, instead of having to rely on web scraping to get data like meeting times, instructor, we could just query the source with a similar AJAX request. (In fact, I even discovered how to get any instructor’s 9 digit UCLA ID).</p>
+
+<p>So now I should actually start talking about the request, and in particular, the most important part of the query: the <code class="language-text highlighter-rouge">paramData</code>. There’s a lot that goes into creating the object in the original <code class="language-text highlighter-rouge">ClassSearchWidget.js?v=1.3d</code>, but I can show you the condensed version in my own code.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">paramData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">search_by_typ_cd</span><span class="p">:</span> <span class="dl">'</span><span class="s1">classidnumber</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">term_cd</span><span class="p">:</span> <span class="s2">`</span><span class="p">${</span><span class="nx">classParams</span><span class="p">.</span><span class="nx">term_cd</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+    <span class="na">ses_grp_cd</span><span class="p">:</span> <span class="dl">'</span><span class="s1">%</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">subj_area_cd</span><span class="p">:</span> <span class="s2">`</span><span class="p">${</span><span class="nx">classParams</span><span class="p">.</span><span class="nx">subj_area_cd</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+    <span class="na">crs_catlg_no</span><span class="p">:</span> <span class="s2">`</span><span class="p">${</span><span class="nx">classParams</span><span class="p">.</span><span class="nx">crs_catlg_no</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+    <span class="na">class_no</span><span class="p">:</span> <span class="s2">`</span><span class="p">${</span><span class="nx">classParams</span><span class="p">.</span><span class="nx">class_no</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+    <span class="na">class_id</span><span class="p">:</span> <span class="s2">`</span><span class="p">${</span><span class="nx">classParams</span><span class="p">.</span><span class="nx">class_id</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+    <span class="na">class_units</span><span class="p">:</span> <span class="dl">'</span><span class="s1">%</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">instr_nm</span><span class="p">:</span> <span class="dl">'</span><span class="s1">%</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">act_enrl_seq_num</span><span class="p">:</span> <span class="dl">'</span><span class="s1">%</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">active_enrl_fl</span><span class="p">:</span> <span class="dl">'</span><span class="s1">n</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">class_prim_act_fl</span><span class="p">:</span> <span class="dl">'</span><span class="s1">n</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">id</span><span class="p">:</span> <span class="dl">'</span><span class="s1">kRnfwF2eOadis08vDX5eZCmwt+Cd17YQA+uPMRwtPEg=</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">searchKey</span><span class="p">:</span> <span class="dl">"</span><span class="s2">sorry,Ican't</span><span class="dl">"</span><span class="p">,</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>As you can see, these are essentially search parameters to help narrow down the entire database.</p>
+
+<p>Most of these are kind of self explanatory, but a few notable points:</p>
+
+<ul>
+  <li><code class="language-text highlighter-rouge">%</code> means an unknown parameter in the search. For example, if you’re looking up classes by subject, which is the default, the search will have no access to the class id number.</li>
+  <li><code class="language-text highlighter-rouge">search_by_typ_cd</code> is the search type, as in searching by Instructor Name, Subject, or in our case, Class ID Number</li>
+  <li>I’m not quite sure what id is, but as long as I took one that worked from an actual query on the Class Planner website, it worked forever, even in Ok, Zoomer.</li>
+  <li>Keep in mind that <code class="language-text highlighter-rouge">class_no</code> = class number = lecture number, while <code class="language-text highlighter-rouge">class_id</code> = Class ID Number. I know, it’s a bit annoying.</li>
+</ul>
+
+<p>And of course, <code class="language-text highlighter-rouge">searchKey</code> is probably the most interesting and weird here. So what is <code class="language-text highlighter-rouge">searchKey</code> supposed to be anyway? It’s clear it was important, changing the key and making the same query resulted in an error from the database.</p>
+
+<p>At first, I thought that it was some kind of session ID, something like a cookie you could send to make sure you were logged into myUCLA to be allowed to access the data. However, even after logging out and logging back in, the <code class="language-text highlighter-rouge">searchKey</code> remains the same. So I thought I could just copy and paste this value and keep it, but my friend reported he had a different value when I asked him to test. And even further, after testing the same key on my own account for a couple days, the key suddenly changed one day.</p>
+
+<p>Either way, one thing was clear: without knowing what exactly this searchKey represented, I couldn’t really programmatically “calculate” what the right one should be So of course, the value “sorry,Ican’t” is a just for fun value, and doesn’t actually mean anything.</p>
+
+<p>What’s going on here is that I need to provide something there, otherwise whatever server is serving this query will just be sad, and not know how to respond. However, if I provide a searchKey even just a dummy one, for some reason, the system replies back with something to the tune of:</p>
+
+<blockquote>
+  <p>whoops, <code class="language-text highlighter-rouge">{yourKey}</code> doesn’t look correct, the actual key should be <code class="language-text highlighter-rouge">{correctKey}</code></p>
+</blockquote>
+
+<p>So wait a second, it just gives us the correct key right back to us? Uh, ok, that’s actually kind of saved this project. I’m honestly not sure what the point of this key is then if the database is just going to tell me the right answer, so couldn’t it have figured out the key itself? I’m not sure, and without further investigation, I think I’m fine with leaving this as a mystery.</p>
+
+<p>So the idea is to</p>
+
+<ol>
+  <li>Make query with dummy <code class="language-text highlighter-rouge">searchKey</code></li>
+  <li>Read the last word of the response’s error message to get the correct <code class="language-text highlighter-rouge">searchKey</code></li>
+  <li>Redo the query, updated with the correct <code class="language-text highlighter-rouge">searchKey</code></li>
+</ol>
+
+<p>And so the code looks a bit funny:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">POST</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/ClassPlanner/ClassSearch.asmx/getTierData</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">paramData</span><span class="p">),</span>
+    <span class="na">contentType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json; charset=utf-8</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">dataType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">json</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">errorMessage</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// start retry</span>
+
+        <span class="nx">paramData</span><span class="p">.</span><span class="nx">searchKey</span> <span class="o">=</span> <span class="nx">getLastWord</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">errorMessage</span><span class="p">);</span>
+
+        <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+          <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">POST</span><span class="dl">"</span><span class="p">,</span>
+          <span class="na">url</span><span class="p">:</span> <span class="dl">"</span><span class="s2">/ClassPlanner/ClassSearch.asmx/getTierData</span><span class="dl">"</span><span class="p">,</span>
+          <span class="na">data</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">paramData</span><span class="p">),</span>
+          <span class="na">contentType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">application/json; charset=utf-8</span><span class="dl">"</span><span class="p">,</span>
+          <span class="na">dataType</span><span class="p">:</span> <span class="dl">"</span><span class="s2">json</span><span class="dl">"</span><span class="p">,</span>
+          <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">newres</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">selectedClass</span> <span class="o">=</span> <span class="nx">newres</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">svcRes</span><span class="p">.</span><span class="nx">ResultTiers</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+            <span class="c1">// ...</span>
+</code></pre></div></div>
+
+<p>So you can see the two queries side by side, the only change being updating the <code class="language-text highlighter-rouge">searchKey</code>.</p>
+
+<p>Either way, the point of all this is: we have a working way of querying UCLA’s database of classes! It’s probably more reliable than web scraping, and it which can give us really easy to access information, some of which isn’t even ever surfaced on any place in MyUCLA. This is what the result looks like.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">ExtensionData:</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span><span class="err">act_enrl_seq_num:</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="err">anchor_tags:</span><span class="w"> </span><span class="p">[{</span><span class="err">…</span><span class="p">}]</span><span class="w">
+</span><span class="err">class_grd_typ_cd:</span><span class="w"> </span><span class="s2">"SO"</span><span class="w">
+</span><span class="err">class_last_dt:</span><span class="w"> </span><span class="s2">"/Date(1615536000000)/"</span><span class="w">
+</span><span class="err">class_name:</span><span class="w"> </span><span class="s2">"Japanese (JAPAN) 2 - Elementary Modern Japanese"</span><span class="w">
+</span><span class="err">class_no:</span><span class="w"> </span><span class="s2">" 001  "</span><span class="w">
+</span><span class="err">class_section:</span><span class="w"> </span><span class="s2">"Lec 1"</span><span class="w">
+</span><span class="err">class_strt_dt:</span><span class="w"> </span><span class="s2">"/Date(1609747200000)/"</span><span class="w">
+</span><span class="err">class_unt_typ_cd:</span><span class="w"> </span><span class="s2">"F"</span><span class="w">
+</span><span class="err">cls_act_typ_txt:</span><span class="w"> </span><span class="s2">"Lecture"</span><span class="w">
+</span><span class="err">crs_catlg_no:</span><span class="w"> </span><span class="s2">"0002    "</span><span class="w">
+</span><span class="err">disp_catlg_no:</span><span class="w"> </span><span class="s2">"2       "</span><span class="w">
+</span><span class="err">disp_sect_no:</span><span class="w"> </span><span class="s2">"1     "</span><span class="w">
+</span><span class="err">disp_ses_wk:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="err">enrl_status:</span><span class="w"> </span><span class="s2">"&lt;i style='color:green; display:block; float:left; height:3em;' class='icon-unlock'&gt;&lt;/i&gt; Open: 25 of 100 Left"</span><span class="w">
+</span><span class="err">finl_date:</span><span class="w"> </span><span class="s2">"03/15/2021"</span><span class="w">
+</span><span class="err">finl_day:</span><span class="w"> </span><span class="s2">"Monday"</span><span class="w">
+</span><span class="err">finl_times:</span><span class="w"> </span><span class="s2">"3pm-6pm"</span><span class="w">
+</span><span class="err">info_tooltip_cd:</span><span class="w"> </span><span class="s2">"w"</span><span class="w">
+</span><span class="err">info_tooltip_data:</span><span class="w"> </span><span class="p">{</span><span class="err">ExtensionData:</span><span class="w"> </span><span class="p">{</span><span class="err">…</span><span class="p">},</span><span class="w"> </span><span class="err">AdditionalInfo:</span><span class="w"> </span><span class="err">Array(</span><span class="mi">2</span><span class="err">)</span><span class="p">,</span><span class="w"> </span><span class="err">ClassNotesInfo:</span><span class="w"> </span><span class="err">Array(</span><span class="mi">2</span><span class="err">)</span><span class="p">,</span><span class="w"> </span><span class="err">FinalExamInfo:</span><span class="w"> </span><span class="err">Array(</span><span class="mi">2</span><span class="err">)</span><span class="p">,</span><span class="w"> </span><span class="err">MultiListedInfo:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="err">…</span><span class="p">}</span><span class="w">
+</span><span class="err">input_class_id:</span><span class="w"> </span><span class="s2">"%"</span><span class="w">
+</span><span class="err">input_class_units:</span><span class="w"> </span><span class="s2">"%"</span><span class="w">
+</span><span class="err">input_honors_type_cd:</span><span class="w"> </span><span class="s2">"%"</span><span class="w">
+</span><span class="err">input_instr_nm:</span><span class="w"> </span><span class="s2">"%"</span><span class="w">
+</span><span class="err">input_ses_grp_cd:</span><span class="w"> </span><span class="s2">"%"</span><span class="w">
+</span><span class="err">instr_info:</span><span class="w"> </span><span class="s2">"Takakura, A.H."</span><span class="w">
+</span><span class="err">instr_items:</span><span class="w"> </span><span class="p">[{</span><span class="err">…</span><span class="p">}]</span><span class="w">
+</span><span class="err">meet_days:</span><span class="w"> </span><span class="s2">"TR"</span><span class="w">
+</span><span class="err">meet_days_tooltip:</span><span class="w"> </span><span class="s2">"Tuesday, Thursday"</span><span class="w">
+</span><span class="err">meet_items:</span><span class="w"> </span><span class="p">[{</span><span class="err">…</span><span class="p">}]</span><span class="w">
+</span><span class="err">meet_location:</span><span class="w"> </span><span class="s2">"Online - Recorded "</span><span class="w">
+</span><span class="err">meet_location_tooltip:</span><span class="w"> </span><span class="s2">"Online - Recorded: Classes will be held at scheduled times with faculty delivering course content using remote communication tools and with students in attendance using those tools. Faculty &lt;strong&gt;will record&lt;/strong&gt; the class and make available those scheduled activities for subsequent use by students. However, students should be aware that faculty may still request their participation during scheduled meeting times."</span><span class="w">
+</span><span class="err">meet_times:</span><span class="w"> </span><span class="s2">"9:30am&lt;wbr /&gt;-10:45am"</span><span class="w">
+</span><span class="err">next_act_enrl_seq_num:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+</span><span class="err">next_sect_fl:</span><span class="w"> </span><span class="s2">"y"</span><span class="w">
+</span><span class="err">search_by_typ_cd:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="err">sect_no:</span><span class="w"> </span><span class="s2">" 001  "</span><span class="w">
+</span><span class="err">ses_wk:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="err">session_info:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="err">srs_crs_no:</span><span class="w"> </span><span class="s2">"261006200"</span><span class="w">
+</span><span class="err">subj_area_cd:</span><span class="w"> </span><span class="s2">"JAPAN  "</span><span class="w">
+</span><span class="err">subj_area_name:</span><span class="w"> </span><span class="s2">"JAPANESE                                             "</span><span class="w">
+</span><span class="err">sync_to_mf_fl:</span><span class="w"> </span><span class="s2">"y"</span><span class="w">
+</span><span class="err">term_cd:</span><span class="w"> </span><span class="s2">"21W"</span><span class="w">
+</span><span class="err">unt_range:</span><span class="w"> </span><span class="s2">"5.0"</span><span class="w">
+
+</span></code></pre></div></div>
+
+<p>And once I have that information, it’s just a matter of packaging it up all nicely, and then messaging the extension to pile it onto the Chrome storage. I would say was simple, but there’s a lot that actually goes into how the content scripts (running on the Class Planner website) and the background page (that actually talks with the Chrome extension) talk to each other. Turns out, you have to do a lot of messaging and listening:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">msg</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="na">toAdd</span><span class="p">:</span> <span class="p">{</span>
+	  <span class="na">classInfo</span><span class="p">:</span> <span class="nx">newres</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">svcRes</span><span class="p">.</span><span class="nx">ResultTiers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+	  <span class="na">classTimes</span><span class="p">:</span> <span class="nx">extractClassTimes</span><span class="p">(</span><span class="nx">newres</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">svcRes</span><span class="p">.</span><span class="nx">ResultTiers</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+	  <span class="na">timeBoundaries</span><span class="p">:</span> <span class="nx">extractTimeBoundaries</span><span class="p">(</span><span class="nx">newres</span><span class="p">.</span><span class="nx">d</span><span class="p">.</span><span class="nx">svcRes</span><span class="p">.</span><span class="nx">ResultTiers</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+	  <span class="na">url</span><span class="p">:</span> <span class="nx">inputObj</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span>
+	  <span class="na">sendNotifications</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+	  <span class="na">zoomerID</span><span class="p">:</span> <span class="nx">randomID</span><span class="p">(),</span>
+	  <span class="na">password</span><span class="p">:</span> <span class="nx">inputObj</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span>
+	  <span class="na">isLink</span><span class="p">:</span> <span class="nx">inputObj</span><span class="p">.</span><span class="nx">isLink</span><span class="p">,</span>
+	<span class="p">},</span>
+	<span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">addClass</span><span class="dl">"</span>
+  <span class="p">}</span>
+  <span class="k">try</span> <span class="p">{</span>
+	<span class="nx">port</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+        <span class="c1">//...</span>
+</code></pre></div></div>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">chrome</span><span class="p">.</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">onConnect</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="nx">port</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">portFromCS</span> <span class="o">=</span> <span class="nx">port</span><span class="p">;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">connected </span><span class="dl">'</span><span class="p">,</span> <span class="nx">port</span><span class="p">);</span>
+  <span class="nx">portFromCS</span><span class="p">.</span><span class="nx">onMessage</span><span class="p">.</span><span class="nx">addListener</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">msg</span><span class="p">);</span>
+    <span class="c1">// listen for addition requests</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">type</span> <span class="o">===</span> <span class="dl">"</span><span class="s2">addClass</span><span class="dl">"</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">addClass</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">toAdd</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">portFromCS</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span>
+          <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">reload</span><span class="dl">"</span>
+        <span class="p">});</span>
+      <span class="p">})</span>
+     <span class="c1">//...</span>
+</code></pre></div></div>
+
+<p>So back to the actual class database; one giant drawback is stopping me from implementing this technique into lots of other usages is that</p>
+
+<blockquote class="lead">
+  <p>Big Limitation #2: You can’t query UCLA’s class database from somewhere outside of MyUCLA without a ton of extra work.</p>
+</blockquote>
+
+<p>Maybe they want to keep all the class info from the public, but for whatever reason, whenever you try to access the URL, I saw that there were certain cookies sent along that had information regarding the current session, and it changes every time you log in. If I logged in and copied that cookie, the queries worked, but of course that means that I can just copy a single cookie value for use in another program, and expect it to work forever.</p>
+
+<p>Luckily I only need access to the information once when the user clicks on the “add class” button when they’re all ready on the Class Planner page where I already have all the cookies/headers I need. Unlike some other ideas I’ve been having, there’s no need to have to query the database many times about the same class over time, possibly not from the Class Planner page.</p>
+
+<h2 id="the-biggest-roadblock-the-storage-limit">The Biggest Roadblock: The Storage Limit</h2>
+<p>Originally, I was storing each class entry in an array, with <a href="https://developer.chrome.com/docs/extensions/reference/storage/">chrome.sync.storage</a>, which is the preferred way of storing data in a Chrome extension so that the same account on different computers have access to the same information. However, there is understandably a pretty strict data limit: each object is only allowed to be 8192 bytes in JSON stringification length. Even though each class I was storing was only around 1800 bytes (most of that entire above representation from UCLA’s database), adding more than 4-5 classes, which I soon found to be very common, was pushing me over the limit.</p>
+
+<p>However, of course if you start thinking about it, this is just a limitation on the size of any particular <em>object</em> in your extension’s storage, the maximum total data is much higher at 102400 bytes, plenty if we could somehow “split” the classes up from the array. The issue with that, if course, is that I’d lose access to the ability to loop through all the classes.</p>
+
+<p>So my solution? I created a <code class="language-text highlighter-rouge">zoomerID</code>. (I kind of only started writing this section just to say that name, I like it a lot). Unfortunately I think the popular <a href="https://www.npmjs.com/package/uuid">uuid</a> package everyone seems to use only works with Node, which I couldn’t figure out how to get into a Chrome extension. So at the end of the day, my <em>randomID</em> function literally just looks like</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">randomID</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>after checking that the ID isn’t already in use by some stroke of luck better than getting hit by lightning twice after winning the lottery.</p>
+
+<p>So great, now that we have an ID number, this allows us to sort of condense down that giant classes array into just an array of classIDs, which act as sort of keys that allow us to access the rest of the classes, which just sort of “float around” the big Chrome storage database. But since each class is keyed by its <code class="language-text highlighter-rouge">zoomerID</code>, all I need to do to iterate through all the classes is iterate through the classIDs, and find the corresponding key in the database, and that object would be the class I’m looking for.</p>
+
+<p>And in that way, I no longer had one giant array of classes, but each class was it’s own object as far as Chrome storage was concerned, so there was no issue piling on the entries!</p>
+
+<p>Even though this was an annoying roadblock that stumped me for a bit, coming up with the solution and the implementation I thought was pretty fun. For example, this is how I’d add a class to the database.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">addClass</span><span class="p">(</span><span class="nx">toAdd</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">await</span> <span class="nx">chrome</span><span class="p">.</span><span class="nx">storage</span><span class="p">.</span><span class="nx">sync</span><span class="p">.</span><span class="kd">get</span><span class="p">({</span>
+      <span class="na">classIDs</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+    <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="c1">// this weird setup allows me to add each class as an individual object to the storage</span>
+      <span class="c1">// importantly, with the zoomerID as the key</span>
+      <span class="kd">var</span> <span class="nx">newClass</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">newClass</span><span class="p">[</span><span class="nx">toAdd</span><span class="p">.</span><span class="nx">zoomerID</span><span class="p">]</span> <span class="o">=</span> <span class="nx">toAdd</span><span class="p">;</span>
+
+      <span class="nx">chrome</span><span class="p">.</span><span class="nx">storage</span><span class="p">.</span><span class="nx">sync</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="nx">newClass</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">added</span><span class="dl">"</span><span class="p">,</span> <span class="nx">newClass</span><span class="p">,</span> <span class="dl">"</span><span class="s2"> to class list</span><span class="dl">"</span><span class="p">);</span>
+        <span class="nx">addClassID</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">classIDs</span><span class="p">,</span> <span class="nx">toAdd</span><span class="p">.</span><span class="nx">zoomerID</span><span class="p">);</span> <span class="c1">//storing the storage value in a variable and passing to update function</span>
+        <span class="nx">createAlarms</span><span class="p">(</span><span class="nx">toAdd</span><span class="p">);</span>
+        <span class="nx">callback</span><span class="p">();</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>And making this ID system actually helped in other ways I didn’t think it would. The biggest area was when looking up classes to edit or delete, I just needed their ID, and then I could modify the object with that ID.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">editZoomerItem</span><span class="p">(</span><span class="nx">zoomerID</span><span class="p">,</span> <span class="nx">updatedObject</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">IDLookup</span><span class="p">(</span><span class="nx">zoomerID</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">foundClass</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">foundClass</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+ 
+      <span class="kd">var</span> <span class="nx">updatedClass</span> <span class="o">=</span> <span class="nx">foundClass</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">updatedObject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">updatedClass</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">updatedObject</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+      <span class="p">}</span>
+      <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+      <span class="nx">obj</span><span class="p">[</span><span class="nx">zoomerID</span><span class="p">]</span> <span class="o">=</span> <span class="nx">updatedClass</span><span class="p">;</span>
+      <span class="c1">//then call the set to update with modified value</span>
+      <span class="nx">chrome</span><span class="p">.</span><span class="nx">storage</span><span class="p">.</span><span class="nx">sync</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`updating to </span><span class="p">${</span><span class="nx">updatedClass</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+        <span class="nx">callback</span><span class="p">(</span><span class="nx">foundClass</span><span class="p">);</span>
+      <span class="p">});</span>
+ 
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>I’m sure this is a really normal issue to encounter, or if there’s a really obvious and standard solution I just haven’t taken the right class or found the right blog post to know yet. But one thing I’ve been really enjoying about doing all this “learning-as-you-go” programming for the JS/HTML stuff that I’m still getting used to, is that you can come up with your own kind of creative solutions to these problems that come up naturally. I mean, I suppose this could be a standard trick, but coming up with a solution myself for an issue that arose naturally was really satisfying.</p>
+
+<h2 id="the-popup">The Popup</h2>
+<p>During development, this was the crucial missing piece that I believe made the extension actually feel whole.</p>
+
+<p>Having all the injections with the Zoom links to the Class Planner as well as the alarms was rather nice. However, it was still missing that feeling of an actual storage place for the Zoom links, where you could edit the link, add passwords, and sort of manage all the added info at once.</p>
+
+<p>Originally, I was thinking of some sort of whole other options page, but after digging around Chrome extension documentation quite a bit, I eventually came across <a href="https://developer.chrome.com/docs/extensions/mv2/getstarted/#user_interface">a part of their tutorial</a> where you actually create a popup, which doesn’t require navigation to a whole new page. I thought this was actually really smart, and would be a lot more convenient.</p>
+
+<p>So this is actually the part that took the longest as I spent a lot of time finding certain templates that would look good and fiddling with the design (what should be displayed, and where). This is eventually what I settled on:</p>
+
+<figure style="width: 600px;">
+<img src="/assets/img/blog/zoomer_files/popup.png" class="lead" />
+<figcaption>Note the different SPOD since this was taken on a different day.
+</figcaption>
+</figure>
+
+<p>And I’m actually really happy with the design.</p>
+
+<p>And another great benefit of having this hub for Ok, Zoomer information was that we’d have lots of control over the information. For example, I was worried about having a class that decided to change one of their meeting times from what was listed on the Class Planner (which I think is technically illegal, but it’s happened before). But now, I could have a simple settings panel for each class where you could add your own custom meeting times, compared to before when once times were set, they stayed that way.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// add a classtime</span>
+<span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">#savetime</span><span class="dl">'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">click</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">editedId</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">#editmodal</span><span class="dl">'</span><span class="p">).</span><span class="nx">prop</span><span class="p">(</span><span class="dl">'</span><span class="s1">name</span><span class="dl">'</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">day</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#dayselect option:selected</span><span class="dl">"</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span> <span class="c1">// -1 if invalid</span>
+  <span class="kd">let</span> <span class="nx">time</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#schedule</span><span class="dl">"</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span> <span class="c1">// blank string if invalid</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">day</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">time</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">IDLookup</span><span class="p">(</span><span class="nx">editedId</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">foundClass</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">fTime</span> <span class="o">=</span> <span class="nx">day</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">:</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">time</span><span class="p">;</span>
+      <span class="c1">// only add if not already included</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">foundClass</span><span class="p">.</span><span class="nx">classTimes</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">fTime</span><span class="p">))</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">updatedTimes</span> <span class="o">=</span> <span class="nx">foundClass</span><span class="p">.</span><span class="nx">classTimes</span><span class="p">;</span>
+        <span class="c1">// db update</span>
+        <span class="nx">updatedTimes</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">fTime</span><span class="p">);</span>
+        <span class="nx">editZoomerItem</span><span class="p">(</span><span class="nx">editedId</span><span class="p">,</span> <span class="p">{</span>
+          <span class="na">classTimes</span><span class="p">:</span> <span class="nx">updatedTimes</span>
+        <span class="p">},</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="nx">editAlarms</span><span class="p">(</span><span class="nx">editedId</span><span class="p">);</span>
+          <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#savetimemsg</span><span class="dl">"</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="dl">"</span><span class="s2">color</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">#1E90FF</span><span class="dl">"</span><span class="p">);</span>
+          <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#savetimemsg</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">"</span><span class="s2">Saved time!</span><span class="dl">"</span><span class="p">);</span>
+          <span class="nx">renderSchedule</span><span class="p">(</span><span class="nx">editedId</span><span class="p">);</span>
+        <span class="p">});</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#savetimemsg</span><span class="dl">"</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="dl">"</span><span class="s2">color</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="p">);</span>
+        <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#savetimemsg</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">"</span><span class="s2">Already exists!</span><span class="dl">"</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#savetimemsg</span><span class="dl">"</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="dl">"</span><span class="s2">color</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">red</span><span class="dl">"</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#savetimemsg</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="dl">"</span><span class="s2">Invalid time!</span><span class="dl">"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div></div>
+<h2 id="importing-exporting-and-the-personal-entries-switch">Importing, Exporting, and The Personal Entries Switch</h2>
+
+<p>Later into the project, once I had most of the infrastructure laid out (could easily+correctly add and remove classes, and all the notifications worked), I was discussing with my tester friend, and immediately came to the conclusion that it would be really nice if we could export and import classes as files. This could help if you, say, found a fun class and think your friend would also enjoy showing up (now that it’s so easy, just jumping into another Zoom room). Because it would be just like naturally adding a class from the Class Planner buttons, it would carry over all the correct meeting times, and set up the alarms. Basically, you wouldn’t have to set anything up, just bring in the file.</p>
+
+<p>At first, this proved to be a really easy task, a lot of the infrastructure for this feature to be added was already in place. I could just slap import/export buttons on the popup, and each class was stored itself as a a Javascript object already, so I could just look up how to export each.</p>
+
+<p>But then I thought, it be even more convenient if you had the ability to export and import these files <em>in bulk</em>. That way, you didn’t have to click “export class” on every single one of your possibly dozens of entries, and someone else might have to import them back in one at a time.</p>
+
+<p>Actually, exporting many classes turned out to be really easy also, mostly thanks to a really nice package I found called <a href="https://www.npmjs.com/package/jszip">JSZip</a>. With it, I could just loop through each entry, slap on each JSON file, and have the files all downloaded as a single zip file. This way, I could avoid making the user sit through a million downloads, which most browsers would block, and is just generally annoying. (You can also send zip files over Discord, which makes sharing even easier).</p>
+
+<p>However, importing in bulk presented a new challenge. Long story short, because of the way you have to update Chrome storage, it’s really hard (or at least I couldn’t find a good way) to append 7 different personal entries in a row. The reason for this essentially boils down to the fact that unlike classes, which I mentioned before just “float around” in the storage, I still had the simple array that stored all the personal entries. However, updating that array entails making a copy of the old, appending the new entry, and overwriting the original array. This means that when you bring 7 new personal entries in at once, there are 7 competing versions that are all overwriting each other one at a time, and so it’s like we only actually added the last personal entry, as it’s the last one that doesn’t get overwritten.</p>
+
+<p>But even just from reading this, you might realize that I emphasized that while personal entries were causing the issue, classes due to their different storage system has no problem being added in bulk. So this ended up dragging me down another adventure in changing the entire structure of my Chrome storage. How? I had to <em>apply the classIDs system to all personal entries</em> as well. To be honest, it was pretty annoying realizing that all the code I had put in place that differentiated between how to handle personal entries vs classes, but now they would be stored in exactly the same manner, but I suppose that’s just what happens with programming. At the end of the day, it probably is a good thing, having all the entries stored in the same way, it did help me clean up the code so that I didn’t have two wildly different functions for two very similar types of objects.</p>
+
+<h2 id="some-remaining-really-annoying-issues">Some remaining really annoying issues</h2>
+<p>There are still a couple really annoying bugs/limitations that want to mention, mainly just to get it out of my system.</p>
+
+<blockquote class="lead">
+  <p>Big Limitation #3: You often have to restart Chrome in order to be able to actually use the Class Planner adding buttons.</p>
+</blockquote>
+
+<p>This is one of those issues I thought I solved like three separate times, and every time it came back when I least expected it. Very annoying. Normally I wouldn’t be too bothered if I were using this tool alone, but I’d be really sad to hear that someone tried it out, but thought it was completely broken the first time they installed the extension and saw that</p>
+
+<blockquote class="lead">
+  <p>Big Limitation #4: https://xxx.zoom.us/j/602226XXX?pwd=UzlBbktJMjZib255L1huQlhkLzBvQT09</p>
+</blockquote>
+
+<p>This is how many professors send the Zoom Links. With the pwd being hashed like that, there’s no way to know in advance what password to give to Ok, Zoomer. This means that you can’t add classes in advance, you just have to go in once, click the security settings of the room you land in, and copy the password listed there down. According to this thread on the Zoom developer forums, they’re not sharing the method to unscramble that password listed in the URL in advance for security reasons, so I think I’m simply just going to add a feature to use that kind of link instead of asking for each Zoom room component.</p>
+
+<p>I’ve heard anecdotally that there were a good amount of people who didn’t want to bother with the application just because they couldn’t store the link like this. And I totally get that, it’s really annoying to have to use the link a single time for real just to get the password, it would really be more convenient if you could just “fire-and-forget”, add the link into your box and then never have to think about it again.</p>
+
+<h2 id="concluding-thoughts">Concluding Thoughts</h2>
+<p>I know I love to rant on to people about how much I love Python. And the cool thing was that a lot of what I learned about programming from Python was able to carry over. I loved how there was a nice package system where I knew that someone had already programmed something better than I could, so I didn’t have to reinvent the wheel, like in the case with handling timezones with Moment, and the zip files with JSZip. I had a lot of making my own discoveries about the way that web programming works, and about new tools that vastly improved the way I was doing things like JQuery.</p>
+
+<p>Other than what I’ve mentioned in the previous section, I’m really satisfied with how this project turned out! I use it pretty much every day for my classes, and it’s very satisfying just being one click away from joining my classes. Aside from the fact that I myself have been able to get so much use out of my own creation, I think what made this project especially fun is that I was forced to think a lot about design philosophy. This was the first time I knew I was making any kind of real user interface, where I was going to have to worry about if people would know where to find certain buttons, and know how to, say, edit their own meeting times for an entry. I had lots of fun conversing with my tester friend about where we thought certain buttons should go, and what features would be cool.</p>
+
+<p>And of course, another really exciting part of the project was finding that UCLA class database! Even though it was just programming, I still felt like I was on the edge of my seat, praying that the parameters I provided would make the database happy, and send back the results I wanted. Figuring that out on my own literally just by digging into the Chrome console and putting in a million breakpoints was a fun adventure. I really hope that I can implement some of this knowledge to more applications, I think it should be possible to imitate something like Coursicle that would be entirely free! I hope that my next blog post will be something like that.</p>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:uniquely" role="doc-endnote">
+      <p>However, an important caveat is that these numbers are always <em>shared across different terms</em>. For example, Japanese 5 has the Class ID Number 261015200 in both <a href="https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=21W&amp;subj_area_cd=JAPAN%20%20&amp;crs_catlg_no=0005%20%20%20%20&amp;class_id=261015200&amp;class_no=%20001%20%20">Winter 2021</a> and <a href="https://sa.ucla.edu/ro/Public/SOC/Results/ClassDetail?term_cd=20W&amp;subj_area_cd=JAPAN%20%20&amp;crs_catlg_no=0005%20%20%20%20&amp;class_id=261015200&amp;class_no=%20001%20%20">Winter 2020</a>. The biggest implication of this is that having just the ID number is not enough to uniquely identify a single offering of a certain class. <a href="#fnref:uniquely" class="reversefootnote" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+    </li>
+  </ol>
+</div>
+
+  
+</article>
+
+
+<hr class="dingbat related" />
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+
+
+
+<img
+  
+    src="/assets/icons/icon.jpg"
+    srcset="/assets/icons/icon.jpg 1x,/assets/icons/icon.jpg 2x"
+    
+  
+  alt="Michael Ting"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About
+  </h2>
+
+  <p>Michael is an Applied Math student at UCLA, but also minoring in Statistics and Asian Languages, with a specialization in computing - just studying anything that seems fun to me. Hoping that one day he’ll able to apply all the math+programming he’s been enjoying working on to help people solve their real-world problems. But most importantly? “I can only use SpeedChat”.</p>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/mting314" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:giaga7@gmail.com" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://play.spotify.com/user/12162364462" title="Spotify" class="no-mark-external">
+      <span class="icon-spotify"></span>
+      <span class="sr-only">Spotify</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://www.linkedin.com/in/michael-ting314" title="LinkedIn" class="no-mark-external">
+      <span class="icon-linkedin2"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+    
+
+
+  
+
+  
+    
+
+
+  <aside class="other-projects related mb0" role="complementary">  <h2>Related Posts</h2>  <div class="columns">          <div class="column column-1-2">                  <article class="project-card">  <a href="/blog/blog/programming/pic16b/2021-05-17-hw3/" class="no-hover no-print-link flip-project" tabindex="-1">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img">              <img      src="https://static.scientificamerican.com/sciam/cache/file/DFD3D397-B132-4516-9D8D0C7B4F07763B_source.jpg"        sizes="(min-width: 86em) 31.5rem, (min-width: 54em) 26.5rem, (min-width: 42em) 23.5rem, 48rem"    alt="Homework 3: Fake News Classification"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <h3 class="project-card-title flip-project-title">    <a href="/blog/blog/programming/pic16b/2021-05-17-hw3/" class="flip-title">Homework 3: Fake News Classification</a>  </h3>      <p class="project-card-text fine" property="disambiguatingDescription">      This really says a lot about our society.    </p>      <a class="fill-card no-hover" href="/blog/blog/programming/pic16b/2021-05-17-hw3/" tabindex="-1"><span class="sr-only">Continue reading Homework 3: Fake News Classification</span></a></article>              </div>          <div class="column column-1-2">                  <article class="project-card">  <a href="/blog/blog/programming/2021-05-05-math-accessiblity/" class="no-hover no-print-link flip-project" tabindex="-1">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img">              <img      src="/assets/img/blog/math_accessibility_files/demo_with_alt.PNG"        sizes="(min-width: 86em) 31.5rem, (min-width: 54em) 26.5rem, (min-width: 42em) 23.5rem, 48rem"    alt="Making Accessible Latex"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <h3 class="project-card-title flip-project-title">    <a href="/blog/blog/programming/2021-05-05-math-accessiblity/" class="flip-title">Making Accessible Latex</a>  </h3>      <p class="project-card-text fine" property="disambiguatingDescription">      Learning about a cool clustering algorithm sitting at the intersection of data science, linear algebra, and graph theory    </p>      <a class="fill-card no-hover" href="/blog/blog/programming/2021-05-05-math-accessiblity/" tabindex="-1"><span class="sr-only">Continue reading Making Accessible Latex</span></a></article>              </div>      </div></aside>
+
+  
+
+  
+    
+
+
+  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Random Posts</h2>  <ul class="related-posts">          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-04-14-hw1/" class="flip-title"><span>Homework 1: Some Fancy Climate Dataset Visualizations</span></a>  <time class="faded fine" datetime="2021-04-14T00:00:00-07:00">14 Apr 2021</time></li>          <li class="h4">  <a href="/blog/blog/programming/2021-05-05-math-accessiblity/" class="flip-title"><span>Making Accessible Latex</span></a>  <time class="faded fine" datetime="2021-05-05T00:00:00-07:00">05 May 2021</time></li>          <li class="h4">  <a href="/blog/blog/programming/2020-05-27-discord-bot/" class="flip-title"><span>Coursicle but Better</span></a>  <time class="faded fine" datetime="2020-05-27T05:56:28-07:00">27 May 2020</time></li>      </ul></aside>
+
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">Michael Ting © 2021. All rights reserved
+</small></p>
+  
+  
+    <nav class="legal"><small>
+    
+      
+      <a class="heading flip-title" href="/LICENSE/">LICENSE</a>
+      |
+    
+      
+      <a class="heading flip-title" href="/NOTICE/">NOTICE</a>
+      |
+    
+      
+      <a class="heading flip-title" href="/CHANGELOG/">CHANGELOG</a>
+      
+    
+    </small></nav>
+  
+  
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.0.3</span></small></p>
+  
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+
+
+<div class="sidebar-bg " style="background:linear-gradient(202deg, rgb(6 8 29) 13%, rgb(181 181 181) 87%)">
+
+ </div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/" tabindex="-1">
+        <img src="/assets/icons/icon.jpg" class="avatar" alt="Michael Ting" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/"><h2 class="h1">Michael Ting</h2>
+        
+      
+      <h3 class="faded"> SpeedChat Enjoyer </h3>
+    
+    </a>
+    
+
+    
+      <p class="">
+        Undergraduate Student in Applied Mathematics at UCLA
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/about"
+          class="sidebar-nav-item"
+          
+        >
+          About
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/blog"
+          class="sidebar-nav-item"
+          
+        >
+          Blog
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/resume/"
+          class="sidebar-nav-item"
+          
+        >
+          Résumé\CV
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/projects/"
+          class="sidebar-nav-item"
+          
+        >
+          Projects
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://github.com/mting314" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:giaga7@gmail.com" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://play.spotify.com/user/12162364462" title="Spotify" class="no-mark-external">
+      <span class="icon-spotify"></span>
+      <span class="sr-only">Spotify</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://www.linkedin.com/in/michael-ting314" title="LinkedIn" class="no-mark-external">
+      <span class="icon-linkedin2"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var e=document.createElement("script");if(!("noModule"in e)&&"onbeforeload"in e){var t=!1;document.addEventListener("beforeload",function(n){if(n.target===e)t=!0;else if(!n.target.hasAttribute("nomodule")||!t)return;n.preventDefault()},!0),e.type="module",e.src=".",document.head.appendChild(e),e.remove()}}();
+</script>
+  <script src="/assets/js/hydejack-9.0.3.js" type="module"></script>
+  <script src="/assets/js/LEGACY-hydejack-9.0.3.js" nomodule defer></script>
+  <!-- I gotta add this here or the javascript will NOT load when dynamic page reloading is disabled
+typewriter.js and the code below are not that big so it should not be much of an issue in page loading speed. Especially with jekyll -->
+
+<script src="/assets/mting314/js/jquery-3.5.1.min.js"></script>
+<script src="/assets/mting314/js/typewriter.js"></script>
+<script src="/assets/mting314/js/particles.min.js"></script> 
+<script>
+function appendLeadingZeroes(n){
+    if(n <= 9){
+      return "0" + n;
+    };
+    return n;
+  };
+  function strip(html){
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  };
+
+  function getRandomSubarray(arr, size) {
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
+    while (i--) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(0, size);
+}
+
+var blogTyperStarted = false;
+var startBlogTyper = function(typingWindow){
+  blogTyperStarted = true;
+  var typingWindow = document.getElementsByClassName('typing-window blog')[0];  
+
+  if(!typingWindow){
+    return;
+  };
+  var typingWindowWrapper = document.getElementsByClassName('typing-window-wrapper')[0];  
+  var app = typingWindow.getElementsByClassName('typing-area')[0];
+  var closeBtn =  typingWindow.getElementsByClassName('typing-toolbar-btn close')[0];
+  typingWindowWrapper.addEventListener('transitionend', function(event) {
+    if(event.target !== event.currentTarget)
+      return;
+      /* Javascript returns max-height as a string "opx" */
+    if (event.propertyName === "max-height" && typingWindowWrapper.style.maxHeight === "0px"){
+      typingWindowWrapper.remove();
+    }else if(event.propertyName === "opacity" && typingWindowWrapper.style.opacity < 0.1){
+      typingWindowWrapper.style.maxHeight = 0;
+    };
+ });
+
+  setTimeout (function() {
+    closeBtn.classList.toggle('disabled');
+    closeBtn.onclick = function() {
+          typewriter.stop();
+          typingWindowWrapper.style.opacity = 0.01;
+      };
+  }, 10000);
+  console.log("Starting blog typer!");
+
+
+
+  var totalLoops = 20;
+  // var wordList = ["<em>PhD Student</em> 📚", "Programmer 💻", "Photographer 📷", "Pizza Lover 🍕", "Gamer 👾", "Swimmer 🏊", "Traveller 🌏"];
+  const jsonData = {
+        "10": "Oh, well.",
+        "20": "Why not?",
+        "30": "Naturally!",
+        "40": "That's the way to do it.",
+        "50": "Right on!",
+        "60": "What up?",
+        "70": "But of course!",
+        "80": "Bingo!",
+        "90": "You've got to be kidding...",
+        "100": "Sounds good to me.",
+        "110": "That's kooky!",
+        "120": "Awesome!",
+        "130": "For crying out loud!",
+        "140": "Don't worry.",
+        "150": "Grrrr!",
+        "160": "What's new?",
+        "170": "Hey, hey, hey!",
+        "180": "See you tomorrow.",
+        "190": "See you next time.",
+        "200": "See ya later, alligator.",
+        "210": "After a while, crocodile.",
+        "220": "I need to go soon.",
+        "230": "I don't know about this!",
+        "240": "You're outta here!",
+        "250": "Ouch, that really smarts!",
+        "260": "Gotcha!",
+        "270": "Please!",
+        "280": "Thanks a million!",
+        "290": "You are stylin'!",
+        "300": "Excuse me!",
+        "310": "Can I help you?",
+        "320": "That's what I'm talking about!",
+        "330": "If you can't take the heat, stay out of the kitchen.",
+        "340": "Well shiver me timbers!",
+        "350": "Well isn't that special!",
+        "360": "Quit horsing around!",
+        "370": "Cat got your tongue?",
+        "380": "You're in the dog house now!",
+        "390": "Look what the cat dragged in.",
+        "400": "I need to go see a Toon.",
+        "410": "Don't have a cow!",
+        "420": "Don't chicken out!",
+        "430": "You're a sitting duck.",
+        "440": "Whatever!",
+        "450": "Totally!",
+        "460": "Sweet!",
+        "470": "That rules!",
+        "480": "Yeah, baby!",
+        "490": "Catch me if you can!",
+        "500": "You need to heal first.",
+        "510": "You need more Laff Points.",
+        "520": "I'll be back in a minute.",
+        "530": "I'm hungry.",
+        "540": "Yeah, right!",
+        "550": "I'm sleepy.",
+        "560": "I'm ready!",
+        "570": "I'm bored.",
+        "580": "I love it!",
+        "590": "That was exciting!",
+        "600": "Jump!",
+        "610": "Got gags?",
+        "620": "What's wrong?",
+        "630": "Easy does it.",
+        "640": "Slow and steady wins the race.",
+        "650": "Touchdown!",
+        "660": "Ready?",
+        "670": "Set!",
+        "680": "Go!",
+        "690": "Let's go this way!",
+        "700": "You won!",
+        "710": "I vote yes.",
+        "720": "I vote no.",
+        "730": "Count me in.",
+        "740": "Count me out.",
+        "750": "Stay here, I'll be back.",
+        "760": "That was quick!",
+        "770": "Did you see that?",
+        "780": "What's that smell?",
+        "790": "That stinks!",
+        "800": "I don't care.",
+        "810": "Just what the doctor ordered.",
+        "820": "Let's get this party started!",
+        "830": "This way everybody!",
+        "840": "What in the world?",
+        "850": "The check's in the mail.",
+        "860": "I heard that!",
+        "870": "Are you talking to me?",
+        "880": "Thank you, I'll be here all week.",
+        "890": "Hmm.",
+        "900": "I'll get this one.",
+        "910": "I got it!",
+        "920": "It's mine!",
+        "930": "Please, take it.",
+        "940": "Stand back, this could be dangerous.",
+        "950": "No worries!",
+        "960": "Oh, my!",
+        "970": "Whew!",
+        "980": "Owoooo!",
+        "990": "All Aboard!",
+        "1000": "Hot Diggity Dog!",
+        "1010": "Curiosity killed the cat.",
+        "2000": "Act your age!",
+        "2010": "Am I glad to see you!",
+        "2020": "Be my guest.",
+        "2030": "Been keeping out of trouble?",
+        "2040": "Better late than never!",
+        "2050": "Bravo!",
+        "2060": "But seriously, folks...",
+        "2070": "Care to join us?",
+        "2080": "Catch you later!",
+        "2090": "Changed your mind?",
+        "2100": "Come and get it!",
+        "2110": "Dear me!",
+        "2120": "Delighted to make your acquaintance.",
+        "2130": "Don't do anything I wouldn't do!",
+        "2140": "Don't even think about it!",
+        "2150": "Don't give up the ship!",
+        "2160": "Don't hold your breath.",
+        "2170": "Don't ask.",
+        "2180": "Easy for you to say.",
+        "2190": "Enough is enough!",
+        "2200": "Excellent!",
+        "2210": "Fancy meeting you here!",
+        "2220": "Give me a break.",
+        "2230": "Glad to hear it.",
+        "2240": "Go ahead, make my day!",
+        "2250": "Go for it!",
+        "2260": "Good job!",
+        "2270": "Good to see you!",
+        "2280": "Got to get moving.",
+        "2290": "Got to hit the road.",
+        "2300": "Hang in there.",
+        "2310": "Hang on a second.",
+        "2320": "Have a ball!",
+        "2330": "Have fun!",
+        "2340": "Haven't got all day!",
+        "2350": "Hold your horses!",
+        "2360": "Horsefeathers!",
+        "2370": "I don't believe this!",
+        "2380": "I doubt it.",
+        "2390": "I owe you one.",
+        "2400": "I read you loud and clear.",
+        "2410": "I think so.",
+        "2420": "I think you should pass.",
+        "2430": "I wish I'd said that.",
+        "2440": "I wouldn't if I were you.",
+        "2450": "I'd be happy to!",
+        "2460": "I'm helping my friend.",
+        "2470": "I'm here all week.",
+        "2480": "Imagine that!",
+        "2490": "In the nick of time...",
+        "2500": "It's not over 'til it's over.",
+        "2510": "Just thinking out loud.",
+        "2520": "Keep in touch.",
+        "2530": "Lovely weather for ducks!",
+        "2540": "Make it snappy!",
+        "2550": "Make yourself at home.",
+        "2560": "Maybe some other time.",
+        "2570": "Mind if I join you?",
+        "2580": "Nice place you have here.",
+        "2590": "Nice talking to you.",
+        "2600": "No doubt about it.",
+        "2610": "No kidding!",
+        "2620": "Not by a long shot.",
+        "2630": "Of all the nerve!",
+        "2640": "Okay by me.",
+        "2650": "Righto.",
+        "2660": "Say cheese!",
+        "2670": "Say what?",
+        "2680": "Tah-dah!",
+        "2690": "Take it easy.",
+        "2700": "Ta-ta for now!",
+        "2710": "Thanks, but no thanks.",
+        "2720": "That takes the cake!",
+        "2730": "That's funny.",
+        "2740": "That's the ticket!",
+        "2750": "There's a Cog invasion!",
+        "2760": "Toodles.",
+        "2770": "Watch out!",
+        "2780": "Well done!",
+        "2790": "What's cooking?",
+        "2800": "What's happening?",
+        "2810": "Works for me.",
+        "2820": "Yes sirree.",
+        "2830": "You betcha.",
+        "2840": "You do the math.",
+        "2850": "You leaving so soon?",
+        "2860": "You make me laugh!",
+        "2870": "You take right.",
+        "2880": "You're going down!",
+        "3000": "Anything you say.",
+        "3010": "Care if I join you?",
+        "3020": "Check, please.",
+        "3030": "Don't be too sure.",
+        "3040": "Don't mind if I do.",
+        "3050": "Don't sweat it!",
+        "3060": "Don't you know it!",
+        "3070": "Don't mind me.",
+        "3080": "Eureka!",
+        "3090": "Fancy that!",
+        "3100": "Forget about it!",
+        "3110": "Going my way?",
+        "3120": "Good for you!",
+        "3130": "Good grief.",
+        "3140": "Have a good one!",
+        "3150": "Heads up!",
+        "3160": "Here we go again.",
+        "3170": "How about that!",
+        "3180": "How do you like that?",
+        "3190": "I believe so.",
+        "3200": "I think not.",
+        "3210": "I'll get back to you.",
+        "3220": "I'm all ears.",
+        "3230": "I'm busy.",
+        "3240": "I'm not kidding!",
+        "3250": "I'm speechless.",
+        "3260": "Keep smiling.",
+        "3270": "Let me know!",
+        "3280": "Let the pie fly!",
+        "3290": "Likewise, I'm sure.",
+        "3300": "Look alive!",
+        "3310": "My, how time flies.",
+        "3320": "No comment.",
+        "3330": "Now you're talking!",
+        "3340": "Okay by me.",
+        "3350": "Pleased to meet you.",
+        "3360": "Righto.",
+        "3370": "Sure thing.",
+        "3380": "Thanks a million.",
+        "3390": "That's more like it.",
+        "3400": "That's the stuff!",
+        "3410": "Time for me to hit the hay.",
+        "3420": "Trust me!",
+        "3430": "Until next time.",
+        "3440": "Wait up!",
+        "3450": "Way to go!",
+        "3460": "What brings you here?",
+        "3470": "What happened?",
+        "3480": "What now?",
+        "3490": "You first.",
+        "3500": "You take left.",
+        "3510": "You wish!",
+        "3520": "You're toast!",
+        "3530": "You're too much!",
+        "4000": "Toons rule!",
+        "4010": "Cogs drool!",
+        "4020": "Toons of the world unite!",
+        "4030": "Howdy, partner!",
+        "4040": "Much obliged.",
+        "4050": "Get along, little doggie.",
+        "4060": "I'm going to hit the hay.",
+        "4070": "I'm chomping at the bit!",
+        "4080": "This town isn't big enough for the two of us!",
+        "4090": "Saddle up!",
+        "4100": "Draw!!!",
+        "4110": "There's gold in them there hills!",
+        "4120": "Happy trails!",
+        "4130": "This is where I ride off into the sunset...",
+        "4140": "Let's skedaddle!",
+        "4150": "You got a bee in your bonnet?",
+        "4160": "Lands sake!",
+        "4170": "Right as rain.",
+        "4180": "I reckon so.",
+        "4190": "Let's ride!",
+        "4200": "Well, go figure!",
+        "4210": "I'm back in the saddle again!",
+        "4220": "Round up the usual suspects.",
+        "4230": "Giddyup!",
+        "4240": "Reach for the sky.",
+        "4250": "I'm fixing to.",
+        "4260": "Hold your horses!",
+        "4270": "I can't hit the broad side of a barn.",
+        "4280": "Y'all come back now.",
+        "4290": "It's a real barn burner!",
+        "4300": "Don't be a yellow belly.",
+        "4310": "Feeling lucky?",
+        "4320": "What in Sam Hill's goin' on here?",
+        "4330": "Shake your tail feathers!",
+        "4340": "Well, don't that take all.",
+        "4350": "That's a sight for sore eyes!",
+        "4360": "Pickins is mighty slim around here.",
+        "4370": "Take a load off.",
+        "4380": "Aren't you a sight!",
+        "4390": "That'll learn ya!",
+        "6000": "I want candy!",
+        "6010": "I've got a sweet tooth.",
+        "6020": "That's half-baked.",
+        "6030": "Just like taking candy from a baby!",
+        "6040": "They're cheaper by the dozen.",
+        "6050": "Let them eat cake!",
+        "6060": "That's the icing on the cake.",
+        "6070": "You can't have your cake and eat it too.",
+        "6080": "I feel like a kid in a candy store.",
+        "6090": "Six of one, half a dozen of the other...",
+        "6100": "Let's keep it short and sweet.",
+        "6110": "Keep your eye on the doughnut not the hole.",
+        "6120": "That's pie in the sky.",
+        "6130": "But it's wafer thin.",
+        "6140": "Let's gum up the works!",
+        "6150": "You're one tough cookie!",
+        "6160": "That's the way the cookie crumbles.",
+        "6170": "Like water for chocolate.",
+        "6180": "Are you trying to sweet talk me?",
+        "6190": "A spoonful of sugar helps the medicine go down.",
+        "6200": "You are what you eat!",
+        "6210": "Easy as pie!",
+        "6220": "Don't be a sucker!",
+        "6230": "Sugar and spice and everything nice.",
+        "6240": "It's like butter!",
+        "6250": "The candyman can!",
+        "6260": "We all scream for ice cream!",
+        "6270": "Let's not sugar coat it.",
+        "6280": "Knock knock...",
+        "6290": "Who's there?",
+        "7000": "Quit monkeying around!",
+        "7010": "That really throws a monkey-wrench in things.",
+        "7020": "Monkey see, monkey do.",
+        "7030": "They made a monkey out of you.",
+        "7040": "That sounds like monkey business.",
+        "7050": "I'm just monkeying with you.",
+        "7060": "Who's gonna be monkey in the middle?",
+        "7070": "That's a monkey off my back...",
+        "7080": "This is more fun than a barrel of monkeys!",
+        "7090": "Well I'll be a monkey's uncle.",
+        "7100": "I've got monkeys on the brain.",
+        "7110": "What's with the monkey suit?",
+        "7120": "Hear no evil.",
+        "7130": "See no evil.",
+        "7140": "Speak no evil.",
+        "7150": "Let's make like a banana and split.",
+        "7160": "It's a jungle out there.",
+        "7170": "You're the top banana.",
+        "7180": "Cool bananas!",
+        "7190": "I'm going bananas!",
+        "7200": "Let's get into the swing of things!",
+        "7210": "This place is swinging!",
+        "7220": "I'm dying on the vine.",
+        "7230": "Let's make like a tree and leave.",
+        "7240": "Jellybeans don't grow on trees!",
+        "10000": "This place is a ghost town.",
+        "10001": "Nice costume!",
+        "10002": "I think this place is haunted.",
+        "10003": "Trick or Treat!",
+        "10004": "Boo!",
+        "10005": "Happy Haunting!",
+        "10006": "Happy Halloween!",
+        "10007": "It's time for me to turn into a pumpkin.",
+        "10008": "Spooktastic!",
+        "10009": "Spooky!",
+        "10010": "That's creepy!",
+        "10011": "I hate spiders!",
+        "10012": "Did you hear that?",
+        "10013": "You don't have a ghost of a chance!",
+        "10014": "You scared me!",
+        "10015": "That's spooky!",
+        "10016": "That's freaky!",
+        "10017": "That was strange....",
+        "10018": "Skeletons in your closet?",
+        "10019": "Did I scare you?",
+        "11000": "Bah! Humbug!",
+        "11001": "Better not pout!",
+        "11002": "Brrr!",
+        "11003": "Chill out!",
+        "11004": "Come and get it!",
+        "11005": "Don't be a turkey.",
+        "11006": "Gobble gobble!",
+        "11007": "Happy holidays!",
+        "11008": "Happy New Year!",
+        "11009": "Happy Thanksgiving!",
+        "11010": "Happy Turkey Day!",
+        "11011": "Ho! Ho! Ho!",
+        "11012": "It's \"snow\" problem.",
+        "11013": "It's \"snow\" wonder.",
+        "11014": "Let it snow!",
+        "11015": "Rake 'em in.",
+        "11016": "Season's greetings!",
+        "11017": "Snow doubt about it!",
+        "11018": "Snow far, snow good!",
+        "11019": "Yule be sorry!",
+        "11020": "Have a Wonderful Winter!",
+        "11021": "The Holiday Party decorations are Toontastic!",
+        "11022": "Toon Troopers are hosting Holiday Parties!",
+        "12000": "Be mine!",
+        "12001": "Be my sweetie!",
+        "12002": "Happy ValenToon's Day!",
+        "12003": "Aww, how cute.",
+        "12004": "I'm sweet on you.",
+        "12005": "It's puppy love.",
+        "12006": "Love ya!",
+        "12007": "Will you be my ValenToon?",
+        "12008": "You are a sweetheart.",
+        "12009": "You are as sweet as pie.",
+        "12010": "You are cute.",
+        "12011": "You need a hug.",
+        "12012": "Lovely!",
+        "12013": "That's darling!",
+        "12014": "Roses are red...",
+        "12015": "Violets are blue...",
+        "12016": "That's sweet!",
+        "12050": "I LOVE busting Cogs!",
+        "12051": "You're dynamite!",
+        "12052": "I only have hypno-eyes for you!",
+        "12053": "You're sweeter than a jellybean!",
+        "12054": "I'd LOVE for you to come to my ValenToon's party!",
+        "13000": "Top o' the mornin' to you!",
+        "13001": "Happy St. Patrick's Day!",
+        "13002": "You're not wearing green!",
+        "13003": "It's the luck of the Irish.",
+        "13004": "I'm green with envy.",
+        "13005": "You lucky dog!",
+        "13006": "You're my four leaf clover!",
+        "13007": "You're my lucky charm!",
+        "14000": "Let's have a summer Estate party!",
+        "14001": "It's party time!",
+        "14002": "Last one in the pond is a rotten Cog!",
+        "14003": "Group Doodle training time!",
+        "14004": "Doodle training time!",
+        "14005": "Your Doodle is cool!",
+        "14006": "What tricks can your Doodle do?",
+        "14007": "Time for Cannon Pinball!",
+        "14008": "Cannon Pinball rocks!",
+        "14009": "Your Estate rocks!",
+        "14010": "Your Garden is cool!",
+        "14011": "Your Estate is cool!",
+        "14012": "I don't have anyone to call for help",
+        "14013": "I like your style.",
+        "14014": "Send in a bug report"
+      }
+  var wordList = getRandomSubarray(Object.values(jsonData), 10);
+  var pause = [1000, 4500];
+  var terminalStarter = "> <span style='color: #5cd400;'> mting314@blog:</span><span style='color: #1c39c7;'>~</span>$ ";
+  var current_datetime = new Date();
+  var formatted_date = current_datetime.getFullYear() + "-" + appendLeadingZeroes(current_datetime.getMonth() + 1) + "-" + appendLeadingZeroes(current_datetime.getDate()) + " " + appendLeadingZeroes(current_datetime.getHours()) + ":" + appendLeadingZeroes(current_datetime.getMinutes()) + ":" + appendLeadingZeroes(current_datetime.getSeconds());
+
+  var randomDelay = function(){
+   return Math.random() * (pause[1] - pause[0] + pause[0]);
+  };
+  var typewriter = new Typewriter(app, {
+    loop: false,
+    delay: 'natural',
+    cursor: '▌'
+  });
+
+  typewriter
+  .pasteString(terminalStarter +"["+formatted_date+"]")
+  .pauseFor(1000);
+
+  if(current_datetime.getHours() > 22 ||current_datetime.getHours() < 5){
+    typewriter
+    .changeDelay(50)
+    .pasteString("<br /> " +terminalStarter)
+    .typeString("What are you doing up late? :)")
+    .pauseFor(randomDelay());
+  };
+
+  if((current_datetime.getMonth() + 1) == 6 && current_datetime.getDate() == 9){
+    typewriter
+    .changeDelay(50)
+    .pasteString("<br /> " +terminalStarter)
+    .typeString("It's my birthday today! 🎂🎉")
+    .pauseFor(randomDelay());    
+  };
+
+  console.log("aolsikfhjalskfhj");
+  typewriter
+  .changeDelay(90)
+  .pasteString("<br /> " +terminalStarter)
+  .pauseFor(1200)
+  .typeString("Hey!")
+  .pauseFor(800)
+  .typeString(" I'm <strong>Michael</strong>")
+  .pauseFor(1000)
+  .pasteString("<br /> " + terminalStarter)
+  .typeString(" I can only use SpeedChat.")
+  .pauseFor(1000)
+  .pasteString("<br /> " + terminalStarter)
+  .typeString(" SpeedChat: ")
+  ;
+
+  let toType;
+  for(var k = 0; k < totalLoops; k++){ 
+    for(var i=0; i < wordList.length; i++){
+      toType = wordList[parseInt(Math.random() * wordList.length)]
+      typewriter
+      .typeString(toType)
+      .pauseFor(randomDelay())
+      .deleteChars(strip(toType).length);
+    };
+  };
+  typewriter.start();
+};
+
+var startTypers = function(){
+  /*if(!blogTyperStarted){  startBlogTyper() }; */
+  startBlogTyper();
+  
+};
+
+var linesAdded = false;
+var codeLinesSpan = "<span class='code-lines' style='display: none;'> </span>";
+var codeLinesBtn = "<span class='code-lines-btn icon-list-numbered'></span>";
+var codeLanguageTag = "<span class='code-language-tag'></span>";
+var codeOutputTag = "<span class='code-output-tag icon-enlarge2'></span>";
+var codeOutputMinHeight = "3rem";
+var codeExtrasSpan = "<span class='code-extras'></span>";
+var charLength = 0.8+0.1;
+var addCodeLines = function(){
+  console.log(linesAdded);
+  if(linesAdded){
+    return;
+  }
+  linesAdded = true;
+  $(".highlight").each(function(index){
+    if($(this).find(".code-lines").length > 0){
+      return;
+    };
+    if($(this).parents(".highlight").length > 0){ /*We only want the most external one */
+      return;
+    };
+    var code = $(this).find("code");
+    var languageClass = code.attr('class');
+    if(!languageClass){
+      languageClass = $($(this).parents(".highlighter-rouge")[0]).attr('class');
+    };
+    var language = languageClass.split("-")[1].split(" ")[0].trim();
+    var codeExtras = $(codeExtrasSpan);
+      var languageTag = $(codeLanguageTag);
+    if(language === 'plaintext'){
+      languageTag.text("output");
+      codeExtras.prepend(languageTag);
+      $(this).addClass("code-output");
+      var outputTag = $(codeOutputTag);
+      code.parent().css("max-height", codeOutputMinHeight);
+      outputTag.click(function(){
+          var par = $(this).parent().parent();
+          par.toggleClass("expanded");
+        if( $(this).hasClass("enabled")){
+          par.find("code").parent().css('max-height', codeOutputMinHeight);
+        }
+        else{   
+          par.find("code").parent().css('max-height', '');
+        };
+        $(this).toggleClass("enabled");
+      });
+      codeExtras.prepend(outputTag);    
+    }
+    else{
+      languageTag.text(language);
+      codeExtras.prepend(languageTag);
+      var noLines = code.text().trim().split(/\r\n|\r|\n/).length;
+      if(noLines > 5){
+        var linesSpan = $(codeLinesSpan);
+        linesSpan.attr("code-lines", noLines);
+        var linesBtnSpan = $(codeLinesBtn);
+        linesBtnSpan.click(function(){
+          if( $(this).hasClass("enabled")){
+            var par = $(this).parent().parent();
+            var codeLines = par.find(".code-lines");
+            par.find("code").parent().css("padding-left", "");
+            codeLines.css('opacity', '0');
+            codeLines.css('display', 'none');
+          }
+          else{   
+            var par = $(this).parent().parent();
+            var codeLines = par.find(".code-lines");
+            var padding = Math.max(2,codeLines.attr("code-lines").length)+"rem";
+            par.find("code").parent().css("padding-left", padding);
+            codeLines.css('display', '');
+            codeLines.css('opacity', '1');
+          };
+          $(this).toggleClass("enabled");
+        });
+        linesSpan.text([...Array(noLines).keys()].join("\n"));
+        $(this).prepend(linesSpan);
+        codeExtras.prepend(linesBtnSpan);
+      };
+    };
+    $(this).prepend(codeExtras);
+    $(this).addClass("code-extended");
+  });
+};
+
+
+document.getElementById('_pushState').addEventListener('hy-push-state-load', function() {
+    startTypers();
+    addCodeLines();
+});
+
+
+document.getElementById('_pushState').addEventListener('hy-push-state-start', function() {
+  linesAdded = false;
+});
+document.addEventListener('DOMContentLoaded', function(){ 
+    startTypers();
+}, false);
+</script>
+  
+  <script>!function(w, d) {
+    w.ga=w.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+
+    /**/
+      ga('create', 'UA-145580315-1', 'auto');
+    /**/
+
+    var pushStateEl = d.getElementById('_pushState');
+    var timeoutId;
+    pushStateEl.addEventListener('hy-push-state-load', function() {
+      w.clearTimeout(timeoutId);
+      timeoutId = w.setTimeout(function() {
+        ga('set', 'page', w.location.pathname);
+        ga('send', 'pageview');
+      }, 500);
+    });
+
+    d.addEventListener('hy--cookies-ok', function () {
+      w.ga(function(tracker) {
+        w.ga("set", "anonymizeIp", undefined);
+        localStorage && localStorage.setItem("ga--client-id", tracker.get("clientId"));
+      });
+    });
+
+    w.loadJSDeferred('https://www.google-analytics.com/analytics.js');
+  }(window, document);</script>
+
+
+  <script type="module">
+    if ('serviceWorker' in navigator) {
+      /**/
+      navigator.serviceWorker.register('/sw.js')
+        .then(r => r.update())
+        .catch(() => {});
+      /**/
+    }
+  </script>
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_forward-template">
+  <button id="_forward" class="forward nav-btn no-hover">
+    <span class="sr-only">Forward</span>
+    <span class="icon-arrow-right2"></span>
+  </button>
+</template>
+
+  <template id="_back-template">
+  <button id="_back" class="back nav-btn no-hover">
+    <span class="sr-only">Back</span>
+    <span class="icon-arrow-left2"></span>
+  </button>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+  
+  
+    <template id="_dark-mode-template">
+  <button id="_dark-mode" class="nav-btn no-hover" >
+    <span class="sr-only">Dark Mode</span>
+    <span class="icon-brightness-contrast"></span>
+  </button>
+</template>
+
+  
+  
+    <template id="_search-template">
+  <button id="_search" class="nav-btn no-hover">
+    <label class="sr-only" for="_search-input">Search</label>
+    <span class="icon-search"></span>
+  </button>
+  <div id="_search-box">
+    <div class="nav-btn">
+      <span class="icon-search"></span>
+    </div>
+    <input 
+      id="_search-input"
+      type="search"
+      class="form-control form-control-lg nav-btn"
+      placeholder="SEARCH NOT ENABLED DURING DEVELOPMENT"
+    />
+    <button type="reset" class="nav-btn no-hover">
+      <span class="sr-only">Close</span>
+      <span class="icon-cross"></span>
+    </button>
+  </div>
+  <div id="_hits"></div>
+</template>
+
+  
+</div>
+
+</body>
+</html>
