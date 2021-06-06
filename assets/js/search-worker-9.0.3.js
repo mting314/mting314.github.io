@@ -47,7 +47,7 @@ async function getDocuments() {
 ///////////////////////////////////////////////////////////////////////////////
 
 importScripts('/assets/js/minisearch/dist/umd/index.min.js');
-const INDEX_KEY = 'index--2021-06-06T01:57:15-07:00';
+const INDEX_KEY = 'index--2021-06-06T02:06:51-07:00';
 const storage = new StorageArea('mini-search/');
 
 const OPTIONS = {
