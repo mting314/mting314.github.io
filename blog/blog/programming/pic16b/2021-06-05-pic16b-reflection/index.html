@@ -59,7 +59,7 @@ Powered by Hydejack v9.0.3 <https://hydejack.com/>
 <meta name="twitter:creator" content="@Michael Ting" />
 <meta name="google-site-verification" content="kRoh_csFULhK6lxBJwZOxiWYQpvttOkFj0a3lWwQADc" />
 <script type="application/ld+json">
-{"datePublished":"2021-06-05T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://gmarini.com/blog/blog/programming/pic16b/2021-06-05-pic16b-reflection/"},"@type":"BlogPosting","description":"Thoughts on our PIC 16B final project: MoodSpace","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://gmarini.com/assets/icons/icon.jpg"},"name":"Michael Ting"},"url":"http://gmarini.com/blog/blog/programming/pic16b/2021-06-05-pic16b-reflection/","author":{"@type":"Person","name":"Michael Ting"},"image":"http://gmarini.com/assets/img/projects/moodspace_thumbnail.png","headline":"PIC16B Final Project Reflection","dateModified":"2021-06-06T02:06:22-07:00","@context":"https://schema.org"}</script>
+{"datePublished":"2021-06-05T00:00:00-07:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://gmarini.com/blog/blog/programming/pic16b/2021-06-05-pic16b-reflection/"},"@type":"BlogPosting","description":"Thoughts on our PIC 16B final project: MoodSpace","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"http://gmarini.com/assets/icons/icon.jpg"},"name":"Michael Ting"},"url":"http://gmarini.com/blog/blog/programming/pic16b/2021-06-05-pic16b-reflection/","author":{"@type":"Person","name":"Michael Ting"},"image":"http://gmarini.com/assets/img/projects/moodspace_thumbnail.png","headline":"PIC16B Final Project Reflection","dateModified":"2021-06-09T23:31:49-07:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -389,6 +389,17 @@ in <a href="/blog/blog/" class="flip-title">Blog</a> / <a href="/blog/programmin
       <li><a href="#people-oriented-collaboration" id="markdown-toc-people-oriented-collaboration">“People-oriented” Collaboration</a></li>
     </ul>
   </li>
+  <li><a href="#the-big-problem" id="markdown-toc-the-big-problem">The Big Problem™</a></li>
+  <li><a href="#how-the-algorithm-works" id="markdown-toc-how-the-algorithm-works">How the Algorithm works</a>    <ul>
+      <li><a href="#model-details" id="markdown-toc-model-details">Model Details</a>        <ul>
+          <li><a href="#embedding-layer" id="markdown-toc-embedding-layer">Embedding Layer</a></li>
+          <li><a href="#dropout-layer" id="markdown-toc-dropout-layer">Dropout Layer</a></li>
+        </ul>
+      </li>
+      <li><a href="#model-training" id="markdown-toc-model-training">Model Training</a></li>
+      <li><a href="#finding-song-matches" id="markdown-toc-finding-song-matches">Finding Song Matches</a></li>
+    </ul>
+  </li>
   <li><a href="#what-could-have-gone-better" id="markdown-toc-what-could-have-gone-better">What could have gone better</a></li>
   <li><a href="#going-forward" id="markdown-toc-going-forward">Going forward</a></li>
   <li><a href="#concluding-thoughts" id="markdown-toc-concluding-thoughts">Concluding thoughts</a></li>
@@ -428,9 +439,9 @@ How did it start? The funny story is that I was actually on a little "getaway" w
 
 <p>Speaking of my teammates though, I am extremely glad we ended up being a group together. Let’s just say they aren’t the types of people I normally hang out with, but this project gave us a good common ground to talk about and I’m even glad to say I may be one of the lucky few to come out of the pandemic with a little net gain in number of friends. Earlier, when our professor actually gave a little talk to the undergrad math club here at UCLA, he emphasized that research that’s more “people-oriented”, rather than “topic-oriented” was actually a perfectly valid route to go that that he himself had been really enjoying. Perhaps he didn’t have the exact Gen Z vocabulary to describe it, but the overall group “vibe”, especially for a class like this where to be honest the journey probably is a lot more imporant than the destination.</p>
 
-<h2 id="what-could-have-gone-better">What could have gone better</h2>
+<h2 id="the-big-problem">The Big Problem™</h2>
 
-<p>Even though the vibes were good on the team, I still think we chose a bit of a hard topic to get right, and one that might have required us to be working for a very long time to perfect. The idea behind overall process was to</p>
+<p>Now I want to dive deep into a little adventure we had into the biggest problem with our project as a whole. We had gotten to a point where we set up an initial stab at a machine learning pipeline:</p>
 <ol>
   <li>Perform k-means clustering on a baseline set of songs</li>
   <li>Build and train the machine learning model using our created clusters as targets</li>
@@ -438,11 +449,113 @@ How did it start? The funny story is that I was actually on a little "getaway" w
   <li>Find closest song</li>
 </ol>
 
-<p>Isn’t that kind of clever, having a way to relate movie scripts and song lyrics? Unfortunately though, one of the biggest issues that we didn’t have time to look into very far was actually at the very end when we got very similar song results for movie scenes that were quite different.</p>
+<p>We thought this was originally a clever way to marry together the “feeling” of two kinds of data: movies and songs. We didn’t think too much of this for a while, though, because we ended up being more focused on making the actual website and interface work for a while.</p>
 
-<p>Indeed, you’ll see that we were… pretty far off the mark from our proposal. I think the thing to be most proud of is the website, though. As I was mentioning before, each of us has a piece of it that we’re all really happy with. But at the end of the day, we should all be glad in the fact that we got a really nice-looking and functioning website that can live online for anyone to try out. But, the biggest limitation? The hope was that you could put in your own scene, but we started brushing that aside after realizing how much work that would possibly take, and how quickly deadlines were approaching.</p>
+<p>However, once we finished that, unfortunately quite late into the project, we started experimenting with the actual recommendations, and soon realized the Big Problem™:</p>
 
-<p>For sure the next biggest thing to implement would probably have to do with improving the machine learning process entirely. For example, our professor made us aware at some point of <a href="https://www.tensorflow.org/hub">TensorFlow Hub</a>, where people with a lot of resources have already trained models that are really good at natural language processing. We tried for around 15 minutes getting this to work, once again realized that we needed to focus more time on getting ready once again for presentations. This would almost definitely be the first thing we’d want to work on if we continued improving the project.</p>
+<blockquote>
+  <p>Many very different movie scenes were recommending the same songs over and over again.</p>
+</blockquote>
+
+<p>We spent so much time of the project on getting a functional pipeline and having a nice user interface that the actual thinking and effort on the model was quite lacking until the very end of the project. However, when we finally started noticing this, it took us quite a long time to figure out exactly why this was happening.</p>
+
+<p>After quite a bit of experimenting, we finally figured out there to look. We eventually got around to making a notebook that diagnosed the problem in a nice quantitative way, but here’s the long and the short of it: all the movies ended up being very super duper close in feature space!</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bourne.txt [  0.8028168    0.54838055 108.58993      0.13968945]
+deadpoets.txt [  0.91196984   0.58987993 151.97827      0.16713756]
+fellowship.txt [ 0.73340935  0.5333094  89.36578     0.13055968]
+forrest.txt [  0.8148412    0.5624935  116.31569      0.13917923]
+goodwillhunting.txt [  0.8513357    0.5705814  132.71431      0.16935092]
+incredibles.txt [  0.81596416   0.5668687  122.77204      0.13890487]
+jedi.txt [  0.7981779    0.5339753  110.80746      0.15427852]
+khan.txt [  0.8221025    0.5758075  130.59529      0.14089489]
+shawshank.txt [  0.81988424   0.5672764  121.83119      0.14175367]
+titanic.txt [  0.8225643    0.5699205  123.32264      0.14206994]
+</code></pre></div></div>
+
+<p>Because of this, we noticed the exact same songs that were close to this “cluster” of movies in feature space were the only ones being picked, because we were just picking the songs with lowest distance to these movies in feature space.</p>
+
+<p>Ok, so we know the issue. But at this point we became a bit stumped. The model was being trained on the song lyrics and we couldn’t really change those. We tried improving our layers upping the number of dimensions in the embedding layer or changing the activation functions. This helped the model accuracy when predicting the clusters that the songs belonged to, but this didn’t really move the needle as far as the movie predictions were concerned, so we still had this issue of movies being too close.</p>
+
+<p>Again, after quite a bit of experimenting, we came up with an idea that worked. Instead of trying to target these arbitrary clusters that we got from a completely separate pipeline that probably wasn’t translating well when we ran the model on the movie scripts, we actually trained the model using some additional statistics we had thrown to the wayside a bit ago: Spotify metrics.</p>
+
+<p>Here’s how it worked.</p>
+
+<h2 id="how-the-algorithm-works">How the Algorithm works</h2>
+
+<blockquote>
+  <p>Credit for this part goes to <a href="https://github.com/benbrill">Ben Brill</a>, our Main Machine Learning Person</p>
+</blockquote>
+
+<p>Spotify has several different metrics it measures for each song on it’s API. For instance, if we wanted to see the statistics for the song “Waiting on the World to Change” by John Mayer, we find the following:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[{</span><span class="s">'danceability'</span><span class="p">:</span> <span class="mf">0.514</span><span class="p">,</span>
+  <span class="s">'energy'</span><span class="p">:</span> <span class="mf">0.73</span><span class="p">,</span>
+  <span class="s">'key'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s">'loudness'</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.934</span><span class="p">,</span>
+  <span class="s">'mode'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s">'speechiness'</span><span class="p">:</span> <span class="mf">0.0598</span><span class="p">,</span>
+  <span class="s">'acousticness'</span><span class="p">:</span> <span class="mf">0.00146</span><span class="p">,</span>
+  <span class="s">'instrumentalness'</span><span class="p">:</span> <span class="mf">9.54e-05</span><span class="p">,</span>
+  <span class="s">'liveness'</span><span class="p">:</span> <span class="mf">0.0897</span><span class="p">,</span>
+  <span class="s">'valence'</span><span class="p">:</span> <span class="mf">0.334</span><span class="p">,</span>
+  <span class="s">'tempo'</span><span class="p">:</span> <span class="mf">171.005</span><span class="p">,</span>
+  <span class="s">'type'</span><span class="p">:</span> <span class="s">'audio_features'</span><span class="p">,</span>
+  <span class="s">'id'</span><span class="p">:</span> <span class="s">'0VjIjW4GlUZAMYd2vXMi3b'</span><span class="p">,</span>
+  <span class="s">'uri'</span><span class="p">:</span> <span class="s">'spotify:track:0VjIjW4GlUZAMYd2vXMi3b'</span><span class="p">,</span>
+  <span class="s">'track_href'</span><span class="p">:</span> <span class="s">'https://api.spotify.com/v1/tracks/0VjIjW4GlUZAMYd2vXMi3b'</span><span class="p">,</span>
+  <span class="s">'analysis_url'</span><span class="p">:</span> <span class="s">'https://api.spotify.com/v1/audio-analysis/0VjIjW4GlUZAMYd2vXMi3b'</span><span class="p">,</span>
+  <span class="s">'duration_ms'</span><span class="p">:</span> <span class="mi">200040</span><span class="p">,</span>
+  <span class="s">'time_signature'</span><span class="p">:</span> <span class="mi">4</span><span class="p">}]</span>
+</code></pre></div></div>
+<p>However, movie scenes obviously do not have these same metrics, because they do not have any musicality that can be measured, only dialogue. To bridge the gap between movie and song, we must provide to a model some sort of medium that both movie and songs share. Luckily, both have some form of text. For songs, it is the lyrics, and for movies it is the screenplay text.</p>
+
+<p>With this in mind, we can now develop an idea of what the inputs and outputs of our model should be. The input of our model should be some sort of text, whether that be lyrics or screenplay. The output should be a given set of Spotify metrics. We can train our model using song lyrics as input variables and their respective Spotify Metrics as target variables. From there, we can apply this model to given screenplays to predict what the Spotify metrics <em>would</em> be given the text composition of that scene. Now that we have metrics for both songs and screenplays, we can compare the two to see which songs are most alligned to a selected scene’s screenplay.</p>
+
+<h3 id="model-details">Model Details</h3>
+
+<p>We implemented the above model infastructure using a <code class="language-text highlighter-rouge">tensorflow.keras</code> neural network. Prior to actually inputing the text into the model, it must be vectorized, using the tensorflow <code class="language-text highlighter-rouge">TextVectorization</code> function, which returns a vector that represents the words contained within a given song or screenplay in a tokenized form. Once this is complete, we can feed this tokenized vector into our neural network. An outline of our model’s structure is shown below.</p>
+
+<p><img src="assets/img/blog/moodspace_files/model_arch.png" alt="A depection of our neural network's structure" /></p>
+
+<p>Let’s highlight a couple of key features of this model.</p>
+
+<h4 id="embedding-layer">Embedding Layer</h4>
+<p>The embedding layer takes an input of a vector representing a tokenized string and converts it into a vector in <code class="language-text highlighter-rouge">n</code> dimensional space. We chose <code class="language-text highlighter-rouge">n = 60</code>. This enables our model to visualize where each of our texts might lie in this space, and thus determine connections and patteawfawfrns between them to output to subsequent layers of our model.</p>
+
+<h4 id="dropout-layer">Dropout Layer</h4>
+<p>These layers are placed at various locations in the model to “dropout” some of the connecting neurons within the network, to prevent overfitting.</p>
+
+<h3 id="model-training">Model Training</h3>
+
+<p>We trained our model on a random set of songs in the Spotify API who had English lyrics on Genuis API. The target was set as the Spotify Metrics <code class="language-text highlighter-rouge">energy</code>, <code class="language-text highlighter-rouge">valence</code>, <code class="language-text highlighter-rouge">tempo</code>, and <code class="language-text highlighter-rouge">liveness</code>. These were the results of our final epochs in fitting the model.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 96/100
+20/20 [==============================] - 4s 220ms/step - loss: 2.9242 - root_mean_squared_error: 7.9613 - msle: 0.0210 - val_loss: 5.9375 - val_root_mean_squared_error: 15.3059 - val_msle: 0.0325
+Epoch 97/100
+20/20 [==============================] - 4s 220ms/step - loss: 2.9864 - root_mean_squared_error: 8.0015 - msle: 0.0205 - val_loss: 6.0919 - val_root_mean_squared_error: 15.4481 - val_msle: 0.0317
+Epoch 98/100
+20/20 [==============================] - 6s 281ms/step - loss: 3.0456 - root_mean_squared_error: 8.0510 - msle: 0.0215 - val_loss: 6.1032 - val_root_mean_squared_error: 15.4863 - val_msle: 0.0328
+Epoch 99/100
+20/20 [==============================] - 5s 257ms/step - loss: 3.1289 - root_mean_squared_error: 8.1052 - msle: 0.0218 - val_loss: 6.0257 - val_root_mean_squared_error: 15.4292 - val_msle: 0.0340
+Epoch 100/100
+20/20 [==============================] - 5s 274ms/step - loss: 3.0558 - root_mean_squared_error: 8.0026 - msle: 0.0230 - val_loss: 5.9513 - val_root_mean_squared_error: 15.4306 - val_msle: 0.0371
+</code></pre></div></div>
+<p>Losses are relatively low, as is our Mean Squared Logistic Error, on both the training and validation data. Once the model was fitted, we saved the weights and used them to predict the <code class="language-text highlighter-rouge">energy</code>, <code class="language-text highlighter-rouge">valence</code>, <code class="language-text highlighter-rouge">tempo</code>, and <code class="language-text highlighter-rouge">liveness</code> of our given movie scenes.</p>
+
+<h3 id="finding-song-matches">Finding Song Matches</h3>
+
+<p>Now that we have metrics for both our songs and screenplays, we must develop some sort of way to determine which songs are most similar to which scenes. We can do this by computing the norm between the metrics of each song to a selected movie scene, which is essentially the distance between two points in $ n $ dimensional space.</p>
+
+<p>First, we take the user’s top 20 songs. An random offset is applied to generate a unique list of songs each time the user uses the web app, but this list will not include any songs above their top 70 most listend to tracks. We then run our model on the song lyrics to generate the predicted metrics corresponding to the subject of the song. Though the songs already contain Spotify metrics, we wanted to use metrics generated by the lyrics of the text, as to match the subject of a song to the subject of a movie scene, rather than match the musicality of a song to a movie scene.</p>
+
+<h2 id="what-could-have-gone-better">What could have gone better</h2>
+
+<p>Even though the vibes were good on the team, we were honestly quite frustrated when we found our original model was pretty bad at predictions. I’m still happy that we actually managed to make that notebook that clearly diagnosed our problem and then we found a good way to change the model layers to fix it, but it was a lot more stressful than it needed to be.</p>
+
+<p>I also still would have liked to implement the stretch goal we set for our project, being able to input your own movie scene. Indeed, we started brushing that aside after realizing how much work that would possibly take, and how quickly deadlines were approaching. Even without that piece, though, it’s still fun enough to get the recommendations for the movies we curated. To be honest, it’s something that we have ideas for if we work on this project later, like for example adding a search bar for one of those movie script databases.</p>
+
+<p>With any kind of recommendation/curating system that lives online, there’s also always the important idea: what’s the point of this being online if it’s not going to improve with the more data it collects from users? We once again have ideas for this. We saw another group have a pretty good idea for this, in what looks to be a pretty standard way among online recommendation systems. They set up a Google form where users could submit data about when the model predicted incorrectly. We could almost definitely implement a similar system, maybe even automatically using AWS or <a href="https://databricks.com/">Databricks</a>, or some other way of running a cron job to constantly retrain the model without having to go through the extra hoop of Google form data collection. Either way, this would really be the next and maybe even final machine learning step to make this a true quality web app.</p>
+
+<p>At the end of the day though, I think the thing to be most proud of is the website, though. As I was mentioning before, each of us has a piece of it that we’re all really happy with. At least for me personally, I’m really happy that I both found a good interesting niche to explore and develop, orchestrate the development in our little team, and make a really nice-looking and functioning website that can live online for anyone to try out.</p>
 
 <h2 id="going-forward">Going forward</h2>
 
@@ -660,7 +773,7 @@ How did it start? The funny story is that I was actually on a little "getaway" w
     
 
 
-  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Random Posts</h2>  <ul class="related-posts">          <li class="h4">  <a href="/blog/blog/programming/2021-05-05-math-accessiblity/" class="flip-title"><span>Making Accessible Latex</span></a>  <time class="faded fine" datetime="2021-05-05T00:00:00-07:00">05 May 2021</time></li>          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-05-17-hw3/" class="flip-title"><span>Homework 3: Fake News Classification</span></a>  <time class="faded fine" datetime="2021-05-17T00:00:00-07:00">17 May 2021</time></li>          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-04-29-hw2/" class="flip-title"><span>Homework 2: Spectral Clustering</span></a>  <time class="faded fine" datetime="2021-04-29T00:00:00-07:00">29 Apr 2021</time></li>      </ul></aside>
+  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Random Posts</h2>  <ul class="related-posts">          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-04-29-hw2/" class="flip-title"><span>Homework 2: Spectral Clustering</span></a>  <time class="faded fine" datetime="2021-04-29T00:00:00-07:00">29 Apr 2021</time></li>          <li class="h4">  <a href="/blog/blog/programming/pic16b/2021-05-17-hw3/" class="flip-title"><span>Homework 3: Fake News Classification</span></a>  <time class="faded fine" datetime="2021-05-17T00:00:00-07:00">17 May 2021</time></li>          <li class="h4">  <a href="/blog/blog/programming/2020-05-27-discord-bot/" class="flip-title"><span>Coursicle but Better</span></a>  <time class="faded fine" datetime="2020-05-27T05:56:28-07:00">27 May 2020</time></li>      </ul></aside>
 
   
 
