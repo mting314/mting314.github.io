@@ -1,1 +1,1 @@
-importScripts("/assets/js/service-worker.js?t=2021-07-01T23:00:16-07:00");
+importScripts("/assets/js/service-worker.js?t=2021-07-04T23:34:14-07:00");
