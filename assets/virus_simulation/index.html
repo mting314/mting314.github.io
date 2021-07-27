@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <title>Virus Simulation</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="utils.js"></script>
+    <script src="initialize.js" defer></script>
+    <script src="simulation.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+</head>
+
+<style>
+    /* h1,
+    p {
+        margin-top: 10; 
+        margin-right: 000px;
+        margin-bottom: 30px;
+        margin-left: 000px;
+    } */
+    body {
+        margin: 0;
+        padding: 300px
+    }
+
+    #wrapper {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 14px;
+        color: #333;
+        background: '#333';
+        width: 700px;
+        margin: auto;
+        margin-top: 10px;
+        border-radius: 3px;
+    }
+
+    #content {
+        background: black;
+    }
+
+    #play-button {
+        top: 140px;
+        left: 50px;
+        background: #f08080;
+        padding-right: 26px;
+        border-radius: 3px;
+        border: none;
+        color: white;
+        margin: 5px;
+        padding: 0 12px;
+        width: 60px;
+        cursor: pointer;
+        height: 30px;
+    }
+
+    #reset-button {
+        top: 140px;
+        left: 50px;
+        background: #696969;
+        padding-right: 26px;
+        border-radius: 3px;
+        border: none;
+        color: white;
+        margin: 5px;
+        padding: 0 12px;
+        width: 60px;
+        cursor: pointer;
+        height: 30px;
+    }
+
+    #play-button:hover {
+        background-color: #696969;
+    }
+</style>
+
+<body>
+    <div id="wrapper">
+        <div id="content">
+            <canvas width="700" height="400"></canvas>
+        </div>
+        <div id="vis">
+            <button id="play-button">Start</button> <button id="reset-button">Reset</button>
+        </div>
+        <div id="frm">Parameters:
+            <label for="mu" style="display: inline-block; width: 80; text-align: right">
+                flight rate = <span id="mu-value"></span>
+            </label>
+            <input type="number" min="0" max="0.1" step="0.001" id="mu">
+
+            <label for="gamma" style="display: inline-block; width: 80; text-align: right">
+                infection rate = <span id="gamma-value"></span>
+            </label>
+            <input type="number" min="0" max="10" step="0.1" id="gamma">
+
+            <label for="quarantine_rate" style="display: inline-block; width: 80; text-align: right">
+                Quarantine rate = <span id="quarantine_rate-value"></span>
+            </label>
+            <input type="number" min="0" max="100" step="1" id="quarantine_rate">
+
+            <br>
+            <label for="t_shut" style="display: inline-block; width: 80; text-align: right">
+                Time to shutdown = <span id="t_shut-value"></span>
+            </label>
+            <input type="number" min="0" max="1" step="0.1" id="t_shut">
+
+            <label for="ch_initial" style="display: inline-block; width: 80; text-align: right">
+                Initial infected population in China = <span id="ch_initial-value"></span>
+            </label>
+            <input type="number" min="0" max="200" step="10" id="ch_initial">
+
+            <br>
+            <label for="display_china" style="display: inline-block; width: 80; text-align: right">
+                Display graph for China?<span id="display_china-value"></span>
+            </label>
+            <input type="checkbox" id="display_china" checked>
+        </div>
+        <div id="my_dataviz"></div>
+    </div>
+
+    <h1>Explanation</h1>
+
+    <p>
+        If you want the entire background on my exploration of this model and simulation, you can read my writeup of it,
+        or poke around the Github page which has the code for this page as well as a Jupyter notebook that has some more
+        neat graphs.
+    </p>
+    <p>
+        TLDR though, this is a simulation of a, uhh, hypothetical infection that spread from China to America that aims
+        to explore the question, "how much time does America have to react (by shutting down travel etc.) to the virus
+        arriving?"
+    </p>
+    <p>
+        So naturally, we start with an initial infected population in China in blue on the left. Now once the simulation
+        starts, you'll start to see those little blue dots multiplying as the virus spreads among people, and that
+        growth will also be reflected in the line graph below that tracks the case numbers in real time. (I honestly
+        don't know what an appropriate timescale should be for the normal parameters I have set, so let's just say that
+        those tick marks represent numbers of weeks.) A little while into the simulation, you might start to see those
+        little blue dots fly over from China represented in blue on the left flying over by plane to the US in green on
+        the right. While it might look like it, the number of flights is not going to change before travel shuts down,
+        we're just tracking the movement of infected people, and if more people in China are infected, more people on
+        the flights will be infected as well.
+    </p>
+    <h2>
+        Parameters
+    </h2>
+    <ul>
+        <li>
+            Flight rate - how often a plane carrying (potentially infected) passengers travels from China to America.
+            You can think of this as the chance a particular person travels from China to America in a certain week.
+        </li>
+        <li>
+            Infection rate - higher this is, faster the infection spreads. You can think of this like how many poeple a
+            single carrier infects per week.
+        </li>
+        <li>
+            Quarantine rate - how many people are brought into quarantine (and we're assuming aren't going to infect any
+            more people) every week. This is assumed to be constant throughout the whole run.
+        </li>
+        <li>
+            Initial population in China - what it says on the tin.
+        </li>
+        <li>
+            Time to shutdown - how much time (in weeks I guess) after the infection arrives in the US it takes to shut
+            down all travel from China.
+        </li>
+    </ul>
+
+    <p>
+        One really important part of how this works is what I mean by "overwhelmed". There's a lot more justification as
+        to what and why I call it this, but suffice it to say for this simulation, it's when the infected population in
+        the US is first non-zero/starts growing. For modeling purposes, this is when I declare that the infection has
+        "reached" America (even though of course there were infected people arriving before then), and when the
+        countdown clock starts before travel stops.
+    </p>
+    <p>
+        However, due to, for lack of a better word, the discretization of the model (we're modelling individual planes
+        at the US at discrete time steps), there are tiny little bumps that represent flights with small amounts of
+        infected people that are quarantined quickly.
+    </p>
+    <a href="https://gyazo.com/c21db57964cd5d71a0c1df201d976ffa"><img
+            src="https://i.gyazo.com/c21db57964cd5d71a0c1df201d976ffa.png"
+            alt="Little bumps in America's infected population from relatively healthy planes" width="624" /></a>
+    <p>
+        Therefore, I had to hack in a bit of an annoying check that was just about equivalent to the original check for
+        the first non-zero infected population. Instead, I actually check for the <i>first time the infected population
+            in the US is non-zero for 10 time steps in a row.</i> I mostly chose 10 just because those little bumps
+        lasted around 9 time steps (so just 1 more to confirm that we we're actually getting our feet off the ground)
+    </p>
+
+    <p>
+        The stopping condition is when there are 100k total infected people across both cities, as a
+        way of
+        indicating that our assumption that the pool of infected people was a tiny fraction of the total susceptible
+        population is starting to become invalid.
+    </p>
+
+
+</body>
+
+</html>
