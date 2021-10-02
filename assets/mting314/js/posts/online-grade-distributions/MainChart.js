@@ -210,6 +210,67 @@ var MainChart = new Chart(ctxMain, {
   },
 });
 
+var ctxClassTypes = document.getElementById('main-chart').getContext('2d');
+var MainChart = new Chart(ctxClassTypes, {
+  type: 'bar',
+  data: Chartdata,
+  options: {
+    plugins: {
+      datalabels: {
+        display: false,
+      },
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            max: 1,
+            callback: function (value) {
+              return value.toLocaleString('en-US', {
+                style: 'percent',
+                maximumFractionDigits: 2,
+              }); // convert it to percentage
+            },
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Percentage of Grades',
+          },
+          beginAtZero: true,
+        },
+      ],
+      xAxes: [
+        {
+          scaleLabel: {
+            display: true,
+            labelString: 'Class Type',
+          },
+        },
+      ],
+    },
+    title: {
+      display: true,
+      text: 'Grade Distributions for In-Person vs. Remote Classes',
+      fontSize: 16,
+    },
+
+    animation: false,
+
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          var label = data.datasets[tooltipItem.datasetIndex].text;
+          var value = tooltipItem.yLabel.toLocaleString('en-US', {
+            style: 'percent',
+            maximumFractionDigits: 2,
+          });
+          return label + ': ' + value;
+        },
+      },
+    },
+  },
+});
+
 if (window.matchMedia('(max-width: 480px)').matches) {
   MainChart.canvas.style = 'max-height:600px';
   MainChart.options.maintainAspectRatio = false;
